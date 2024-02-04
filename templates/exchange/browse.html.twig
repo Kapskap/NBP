@@ -16,7 +16,7 @@
 
         {% for rate in exchange %}
                 <tr>
-                    <td><a href="{{ path('app_show', {'id': rate.id }) }}"> {{ rate.currency }} </a></td>
+                    <td><a href="{{ path('app_show', {'currency': rate.currency }) }}"> {{ rate.currency }} </a></td>
                     <td> {{ rate.mid }} </td>
                     <td>{{ rate.code }}</td>
                 </tr>

@@ -28,20 +28,22 @@ class ShowExchangeController extends AbstractController
         //pobieranie danych z najnowszą datą
         $exchange = $entityManager->getRepository(Exchange::class)->findLatest($date);
 
+
         return $this->render('exchange/browse.html.twig', [
             'exchange' => $exchange,
         ]);
     }
 
-    #[Route('/show/{id}', name: 'app_show')]
-    public function show($id, ExchangeRepository $exchangeRepository): Response
+    #[Route('/show/{currency}', name: 'app_show')]
+    public function show($currency, EntityManagerInterface $entityManager, ExchangeRepository $exchangeRepository): Response
     {
- //       dd($currency);
-        $exchange = $exchangeRepository->find($id);
+        $exchange = $exchangeRepository->findBy(['currency' => $currency], ['importAt' => 'DESC']);
+//        $exchange = $entityManager->getRepository(Exchange::class)->findCurrency($currency);
         if (!$exchange) {
-            throw $this->createNotFoundException('Nie znaleziono id '.$id);
+            throw $this->createNotFoundException('Nie znaleziono waluty o nazwie'.$currency);
         }
-//dd($currencies);
+
+//dd($exchange);
         return $this->render('exchange/show.html.twig', ['exchange'=>$exchange]);
     }
 
