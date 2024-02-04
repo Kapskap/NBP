@@ -7,6 +7,8 @@
         Znaleziono <b> {{ exchange|length }} </b> kursy dla waluty
         {{ exchange|last.currency }}.
         <br><br>
+        Kliknij na wybraną datę aby wyświetlić kursy poszczególnych walut.
+        <br><br>
     </div>
 
     <table>
@@ -17,7 +19,7 @@
             <td> {{ rate.currency }}  </td>
             <td> {{ rate.mid }} </td>
             <td>{{ rate.code }}</td>
-            <td>{{ rate.importat|date("Y-m-d") }}</td>
+            <td><a href="{{ path('app_browse', {'date': rate.importat|date("Y-m-d") }) }}">{{ rate.importat|date("Y-m-d") }}</a></td>
         </tr>
         {% endfor %}
 

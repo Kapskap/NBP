@@ -17,16 +17,18 @@ class ShowExchangeController extends AbstractController
         return $this->render('base.html.twig');
     }
 
-    #[Route('/browse', name: 'app_browse')]
-    public function browseExchange(EntityManagerInterface $entityManager): Response
+    #[Route('/browse/{date}', name: 'app_browse')]
+    public function browseExchange(EntityManagerInterface $entityManager, string $date = null): Response
     {
         //pobieranie wpisu z najnowszą datę
-        $exchangeRepository = $entityManager->getRepository(Exchange::class);
-        $date = $exchangeRepository->findOneBy([], ['importAt' => 'DESC']);
-        $date = $date->getImportAt()->format("Y-m-d");
+        if ($date == NULL) {
+            $exchangeRepository = $entityManager->getRepository(Exchange::class);
+            $date = $exchangeRepository->findOneBy([], ['importAt' => 'DESC']);
+            $date = $date->getImportAt()->format("Y-m-d");
+        }
 
         //pobieranie danych z najnowszą datą
-        $exchange = $entityManager->getRepository(Exchange::class)->findLatest($date);
+        $exchange = $entityManager->getRepository(Exchange::class)->findByDate($date);
 
         return $this->render('exchange/browse.html.twig', [
             'exchange' => $exchange,

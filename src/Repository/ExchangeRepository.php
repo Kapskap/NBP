@@ -24,7 +24,7 @@ class ExchangeRepository extends ServiceEntityRepository
     /**
      * @return Currency[] Returns an array of Currency objects
      */
-    public function findLatest($date): array
+    public function findByDate($date): array
     {
         return $this->createQueryBuilder('e')
             ->andWhere('e.importAt = :date')
