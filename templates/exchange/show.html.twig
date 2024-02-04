@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    | show
+{% endblock %}
+{% block body %}
+    <div class="content">
+        Znaleziono <b> {{ exchange|length }} </b> kursy walut z dnia
+        {# exchange|last.importat|date("Y-m-d") #}.
+        <br><br>
+    </div>
+
+    <table>
+        <tr><td><b>Waluta</b></td><td><b>Kurs</b></td><td><b>Oznaczenie</b></td><td>Data</td></tr>
+
+        {# for rate in exchange #}
+            <tr>
+                <td> {{ exchange.currency }}  </td>
+                <td> {{ exchange.mid }} </td>
+                <td>{{ exchange.code }}</td>
+                <td>{{ exchange.importat|date("Y-m-d") }}</td>
+            </tr>
+        {# endfor #}
+
+    </table>
+
+    <br>
+    <a href="{{ path('app_browse') }}"> Powrót do przeglądania wszystkich walut </a>
+
+{% endblock %}
