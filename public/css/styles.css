@@ -20,4 +20,9 @@ a:hover{
     text-decoration: solid;
 }
 
+div.form {
+    float:right;
+    margin: 20px;
+}
+
 

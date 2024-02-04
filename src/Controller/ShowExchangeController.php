@@ -8,6 +8,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class ShowExchangeController extends AbstractController
 {
@@ -18,7 +23,7 @@ class ShowExchangeController extends AbstractController
     }
 
     #[Route('/browse/{date}', name: 'app_browse')]
-    public function browseExchange(EntityManagerInterface $entityManager, string $date = null): Response
+    public function browseExchange(Request $request, EntityManagerInterface $entityManager, string $date = null): Response
     {
         //pobieranie wpisu z najnowszą datę
         if ($date == NULL) {
@@ -27,10 +32,28 @@ class ShowExchangeController extends AbstractController
             $date = $date->getImportAt()->format("Y-m-d");
         }
 
+        //formularz do obsługi daty
+        $form = $this->createFormBuilder()
+            ->add('query', TextType::class, [
+                'label' => ' ',
+                'data' => $date,
+                'required' => false,
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Szukaj'
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $date = $form->get('query')->getData();
+        }
+
         //pobieranie danych z najnowszą datą
         $exchange = $entityManager->getRepository(Exchange::class)->findByDate($date);
 
         return $this->render('exchange/browse.html.twig', [
+            'form' => $form->createView(),
             'exchange' => $exchange,
         ]);
     }

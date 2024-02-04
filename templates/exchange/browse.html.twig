@@ -3,6 +3,11 @@
     | show
 {% endblock %}
 {% block body %}
+    <div class="form">
+        <br>Podaj date do wyszukania:
+        {{ form(form) }}
+    </div>
+
     <div class="content">
         Znaleziono <b> {{ exchange|length }} </b> kursy walut z dnia
         {{ exchange|last.importat|date("Y-m-d") }}.
@@ -10,6 +15,7 @@
         Kliknij na wybraną walutę aby wyświetlić jej kurs z poszczególnych dni
         <br><br>
     </div>
+
 
     <table>
         <tr><td><b>Waluta</b></td><td><b>Kurs</b></td><td><b>Oznaczenie</b></td></tr>
