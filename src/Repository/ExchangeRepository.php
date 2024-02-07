@@ -47,6 +47,21 @@ class ExchangeRepository extends ServiceEntityRepository
             ;
     }
 
+    public function insertExchange(string $currency, string $code, float $mid, string $effectiveDate)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $query = "INSERT INTO exchange (currency, code, mid, import_at)
+                    VALUES(:currency, :code, :mid, :import_at)";
+
+        $result = $conn->executeQuery($query, [
+            'currency' => $currency,
+            'code' => $code,
+            'mid' => $mid,
+            'import_at' => $effectiveDate,
+        ]);
+
+    }
 
 //    public function findOneBySomeField($value): ?Exchange
 //    {

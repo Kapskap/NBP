@@ -9,16 +9,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use App\Service\ExchangeService;
+use App\Repository\ExchangeRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Exchange;
+
 
 #[AsCommand(
     name: 'app:get-data-from-nbp',
     description: 'get current data from nbp',
 )]
-class GetDataFromNpbCommand2 extends Command
+class GetDataFromNpbCommand extends Command
 {
 
-    public function __construct(private ExchangeService $exchangeService)
+    public function __construct(private ExchangeRepository $exchangeRepository)
     {
         parent::__construct();
     }
@@ -50,7 +53,7 @@ class GetDataFromNpbCommand2 extends Command
                 $code = $rate['code'];
                 $mid = $rate['mid'];
  //               dd($effectiveDate);
-                $this->exchangeService->insertExchange($currency, $code, $mid, $effectiveDate);
+                $this->exchangeRepository->insertExchange($currency, $code, $mid, $effectiveDate);
             }
             $io->success('Operacja zakończona powodzeniem');
         }
