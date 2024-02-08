@@ -11,16 +11,36 @@
         <br><br>
     </div>
 
-    <table>
-        <tr><td><b>Waluta</b></td><td><b>Kurs</b></td><td><b>Oznaczenie</b></td><td><b>Data</b></td></tr>
+    <table style="width: 600px;">
+        <tr>
+            <td><b>Waluta</b></td>
+            <td><b>Kurs</b></td>
+            <td style="text-align: center;"><b>Różnica</b></td>
+            <td style="text-align: center;"><b>Zmiana w %</b></td>
+            <td></td>
+            <td><b>Oznaczenie</b></td>
+            <td><b>Data</b></td>
 
+        </tr>
+
+        {% set counter= 0 %}
         {% for rate in exchange %}
         <tr>
             <td> {{ rate.currency }}  </td>
             <td> {{ rate.mid }} </td>
+            <td style="text-align: center;"> {{ sub[counter]|round(4, 'common') }} </td>
+            <td style="text-align: center;"> {{ sc[counter]|round(3, 'common') }} % </td>
+            <td>
+                {% if sub[counter] > 0 %}
+                    <img src="/images/up.png" alt="UP">
+                {% elseif sub[counter] < 0 %}
+                    <img src="/images/down.png" alt="DOWN">
+                {% endif %}
+            </td>
             <td>{{ rate.code }}</td>
             <td><a href="{{ path('app_browse', {'date': rate.importat|date("Y-m-d") }) }}">{{ rate.importat|date("Y-m-d") }}</a></td>
         </tr>
+            {% set counter= counter+1 %}
         {% endfor %}
 
 

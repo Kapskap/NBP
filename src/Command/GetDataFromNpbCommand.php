@@ -46,13 +46,12 @@ class GetDataFromNpbCommand extends Command
                 $rates = $array['rates'];
             }
 
-            //        dd($effectiveDate, $rates);
 
             foreach ($rates as $rate) {
                 $currency = $rate['currency'];
                 $code = $rate['code'];
                 $mid = $rate['mid'];
- //               dd($effectiveDate);
+
                 $this->exchangeRepository->insertExchange($currency, $code, $mid, $effectiveDate);
             }
             $io->success('Operacja zakończona powodzeniem');

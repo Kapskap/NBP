@@ -25,7 +25,7 @@ class ShowExchangeController extends AbstractController
     #[Route('/browse/{date}', name: 'app_browse')]
     public function browseExchange(Request $request, EntityManagerInterface $entityManager, string $date = null): Response
     {
-        //pobieranie wpisu z najnowszą datę
+        //pobieranie najnowszej daty
         if ($date == NULL) {
             $exchangeRepository = $entityManager->getRepository(Exchange::class);
             $date = $exchangeRepository->findOneBy([], ['importAt' => 'DESC']);
@@ -49,7 +49,7 @@ class ShowExchangeController extends AbstractController
             $date = $form->get('query')->getData();
         }
 
-        //pobieranie danych z najnowszą datą
+        //pobieranie danych z wybraną datą
         $exchange = $entityManager->getRepository(Exchange::class)->findByDate($date);
 
         return $this->render('exchange/browse.html.twig', [
@@ -66,7 +66,23 @@ class ShowExchangeController extends AbstractController
             throw $this->createNotFoundException('Nie znaleziono waluty o nazwie '.$currency);
         }
 
-        return $this->render('exchange/show.html.twig', ['exchange'=>$exchange]);
+        foreach ($exchange as $key => $value) {
+            $mid[] = $value->getMid();
+        }
+
+        //Obliczanie różnic w walucie jako liczba ($sub) oraz jako % ($sc)
+        $sub[$key] = NULL;
+        $sc[$key] = NULL;
+        for($i = $key; $i>0; $i--){
+            $sub[$i-1] = $mid[$i-1] - $mid[$i];
+            $sc[$i-1] = 100*$sub[$i-1]/$mid[$i-1];
+        }
+
+        return $this->render('exchange/show.html.twig', [
+            'exchange'=>$exchange,
+            'sub'=>$sub,
+            'sc'=>$sc,
+        ]);
     }
 
 }
