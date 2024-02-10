@@ -4,6 +4,8 @@ namespace App\Entity;
 
 
 use App\Repository\ExchangeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,6 +28,16 @@ class Exchange
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $importAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'exchanges')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Source $source = null;
+
+
+    public function __construct()
+    {
+
+    }
 
     public function getId(): ?int
     {
@@ -79,4 +91,17 @@ class Exchange
 
         return $this;
     }
+
+    public function getSource(): ?source
+    {
+        return $this->source;
+    }
+
+    public function setSource(?source $source): static
+    {
+        $this->source = $source;
+
+        return $this;
+    }
+
 }

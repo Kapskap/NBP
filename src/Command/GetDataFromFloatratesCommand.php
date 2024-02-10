@@ -42,13 +42,14 @@ class GetDataFromFloatratesCommand extends Command
         if ($jsonContent != NULL) {
             $data = json_decode($jsonContent, true);
 
+            $sourceId = 2;
             foreach ($data as $rate) {
                 $currency = $rate['name'];
                 $code = $rate['code'];
                 $mid = $rate['rate'];
                 $effectiveDate = date("Y-m-d", strtotime($rate['date']));
 
-                $this->exchangeRepository->insertExchange($currency, $code, $mid, $effectiveDate);
+                $this->exchangeRepository->insertExchange($currency, $code, $mid, $effectiveDate, $sourceId);
             }
             $io->success('Operacja zakończona powodzeniem');
         }
