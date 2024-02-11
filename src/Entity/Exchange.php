@@ -33,6 +33,9 @@ class Exchange
     #[ORM\JoinColumn(nullable: false)]
     private ?Source $source = null;
 
+    #[ORM\ManyToOne(inversedBy: 'exchanges')]
+    private ?language $language = null;
+
 
     public function __construct()
     {
@@ -100,6 +103,18 @@ class Exchange
     public function setSource(?source $source): static
     {
         $this->source = $source;
+
+        return $this;
+    }
+
+    public function getLanguage(): ?language
+    {
+        return $this->language;
+    }
+
+    public function setLanguage(?language $language): static
+    {
+        $this->language = $language;
 
         return $this;
     }

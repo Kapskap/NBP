@@ -27,10 +27,6 @@ class GetDataFromFloatratesCommand extends Command
     protected function configure(): void
     {
         $this->setDescription('Pobieranie danych z serwisu: floatrates.com');
-//        $this
-//            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-//            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
-//        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -46,7 +42,7 @@ class GetDataFromFloatratesCommand extends Command
             foreach ($data as $rate) {
                 $currency = $rate['name'];
                 $code = $rate['code'];
-                $mid = $rate['rate'];
+                $mid = $rate['inverseRate'];
                 $effectiveDate = date("Y-m-d", strtotime($rate['date']));
 
                 $this->exchangeRepository->insertExchange($currency, $code, $mid, $effectiveDate, $sourceId);
