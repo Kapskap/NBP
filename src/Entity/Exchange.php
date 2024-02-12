@@ -34,7 +34,7 @@ class Exchange
     private ?Source $source = null;
 
     #[ORM\ManyToOne(inversedBy: 'exchanges')]
-    private ?language $language = null;
+    private ?Language $language = null;
 
 
     public function __construct()
