@@ -17,9 +17,6 @@ class Exchange
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 70)]
-    private ?string $currency = null;
-
     #[ORM\Column(length: 5, nullable: true)]
     private ?string $code = null;
 
@@ -45,18 +42,6 @@ class Exchange
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCurrency(): ?string
-    {
-        return $this->currency;
-    }
-
-    public function setCurrency(string $currency): static
-    {
-        $this->currency = $currency;
-
-        return $this;
     }
 
     public function getCode(): ?string

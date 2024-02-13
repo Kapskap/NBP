@@ -40,12 +40,11 @@ class GetDataFromFloatratesCommand extends Command
 
             $sourceId = 2;
             foreach ($data as $rate) {
-                $currency = $rate['name'];
                 $code = $rate['code'];
                 $mid = $rate['inverseRate'];
                 $effectiveDate = date("Y-m-d", strtotime($rate['date']));
 
-                $this->exchangeRepository->insertExchange($currency, $code, $mid, $effectiveDate, $sourceId);
+                $this->exchangeRepository->insertExchange($code, $mid, $effectiveDate, $sourceId);
             }
             $io->success('Operacja zakończona powodzeniem');
         }

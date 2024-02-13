@@ -49,7 +49,6 @@ class GetDataFromNpbCommand extends Command
 
             $sourceId = 1;
             foreach ($rates as $rate) {
-                $currency = $rate['currency'];
                 $code = $rate['code'];
                 $mid = $rate['mid'];
 
@@ -59,7 +58,7 @@ class GetDataFromNpbCommand extends Command
 //                    throw $this->createNotFoundException('Nie znaleziono waluty o oznaczeniu '.$code);
 //                }
 
-                $this->exchangeRepository->insertExchange($currency, $code, $mid, $effectiveDate, $sourceId);
+                $this->exchangeRepository->insertExchange($code, $mid, $effectiveDate, $sourceId);
             }
             $io->success('Operacja zakończona powodzeniem');
         }
