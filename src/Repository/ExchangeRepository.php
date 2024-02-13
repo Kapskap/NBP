@@ -38,11 +38,11 @@ class ExchangeRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findCurrency($currency): array
+    public function findCode($code): array
     {
         return $this->createQueryBuilder('e')
-            ->andWhere('e.currency = :currency')
-            ->setParameter('currency', $currency)
+            ->andWhere('e.code = :code')
+            ->setParameter('code', $code)
             ->orderBy('e.importAt', 'DESC')
             ->getQuery()
             ->getResult()

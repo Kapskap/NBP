@@ -22,7 +22,13 @@
 
         {% for rate in exchange %}
                 <tr>
-                    <td><a href="{{ path('app_show', {'code': rate.code }) }}"> {{ rate.currency }} </a></td>
+                    <td><a href="{{ path('app_show', {'code': rate.code }) }}">
+                            {% if rate.language.namePL is empty %}
+                                {{ rate.language.nameEN }}
+                            {% else %}
+                                {{ rate.language.namePL }}
+                            {% endif %}
+                        </a></td>
                     <td> {{ rate.mid }} </td>
                     <td><a href="{{ path('app_show', {'code': rate.code }) }}"> {{ rate.code }} </a></td>
                 </tr>

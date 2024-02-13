@@ -26,7 +26,13 @@
         {% set counter= 0 %}
         {% for rate in exchange %}
         <tr>
-            <td> {{ rate.currency }}  </td>
+            <td>
+                {% if rate.language.namePL is empty %}
+                    {{ rate.language.nameEN }}
+                {% else %}
+                    {{ rate.language.namePL }}
+                {% endif %}
+            </td>
             <td> {{ rate.mid }} </td>
             <td style="text-align: center;"> {{ sub[counter]|round(4, 'common') }} </td>
             <td style="text-align: center;"> {{ sc[counter]|round(3, 'common') }} % </td>
