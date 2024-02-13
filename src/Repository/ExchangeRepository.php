@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Exchange;
+use App\Entity\Language;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @extends ServiceEntityRepository<Exchange>
@@ -47,12 +49,21 @@ class ExchangeRepository extends ServiceEntityRepository
             ;
     }
 
-    public function insertExchange(string $currency, string $code, float $mid, string $effectiveDate, int $sourceId)
+    public function insertExchange(
+        string $currency, string $code, float $mid, string $effectiveDate, int $sourceId)
     {
         $conn = $this->getEntityManager()->getConnection();
 
-        $query = "INSERT INTO exchange (currency, code, mid, import_at, source_id)
-                    VALUES(:currency, :code, :mid, :import_at, :source_id)";
+//        $select = "SELECT id FROM language WHERE code=:code";
+//
+//        $r = $conn->executeQuery($select, ['code' => $code]);
+//        $id = $r->fetchAllAssociative();
+//        $languageId = $id[0]['id'];
+
+
+        $query = "INSERT INTO exchange (currency, code, mid, import_at, source_id, language_id)
+                    VALUES(:currency, :code, :mid, :import_at, :source_id, 
+                           (SELECT language.id FROM language WHERE code=:code))";
 
         $result = $conn->executeQuery($query, [
             'currency' => $currency,

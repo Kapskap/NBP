@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Exchange;
+use App\Entity\Language;
 use App\Repository\ExchangeRepository;
+use App\Repository\LanguageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -82,6 +84,22 @@ class ShowExchangeController extends AbstractController
             'exchange'=>$exchange,
             'sub'=>$sub,
             'sc'=>$sc,
+        ]);
+    }
+
+    #[Route('/test/{code}', name: 'app_test')]
+    public function test($code, LanguageRepository $languageRepository): Response
+    {
+        $language = $languageRepository->findBy(['code' => $code]);
+        if ($language == NULL) {
+            throw $this->createNotFoundException('Nie znaleziono waluty o oznaczeniu '.$code);
+        }
+
+$id = $language[0]->getId();
+dd($language, $id);
+
+        return $this->render('exchange/show.html.twig', [
+            'exchange'=>$language,
         ]);
     }
 

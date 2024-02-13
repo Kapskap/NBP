@@ -12,6 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use App\Repository\ExchangeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Exchange;
+use App\Service\LanguageService;
 
 
 #[AsCommand(
@@ -21,7 +22,7 @@ use App\Entity\Exchange;
 class GetDataFromNpbCommand extends Command
 {
 
-    public function __construct(private ExchangeRepository $exchangeRepository)
+    public function __construct(private LanguageService $languageService, private ExchangeRepository $exchangeRepository)
     {
         parent::__construct();
     }
@@ -52,16 +53,19 @@ class GetDataFromNpbCommand extends Command
                 $code = $rate['code'];
                 $mid = $rate['mid'];
 
+//                $languageId = $this->languageService->checkCode($code);
+//dd($languageId);
+//                if ($languageId == NULL) {
+//                    throw $this->createNotFoundException('Nie znaleziono waluty o oznaczeniu '.$code);
+//                }
+
                 $this->exchangeRepository->insertExchange($currency, $code, $mid, $effectiveDate, $sourceId);
             }
             $io->success('Operacja zakończona powodzeniem');
         }
         else{
-//            $io->note(sprintf('Operacja zakończona niepowodzeniem !'));
             $io->success('Operacja zakończona niepowodzeniem !');
         }
-
-//        $io->success('Operacja zakończona.');
 
         return Command::SUCCESS;
     }
