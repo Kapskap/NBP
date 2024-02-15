@@ -15,7 +15,7 @@ class GetDataService
         $this->ExchangeRepository = $exchangeRepository;
     }
 
-    public function getDataFromNBP(): bool
+    public function getDataFromNBP(): string
     {
         $jsonContent = file_get_contents("https://api.nbp.pl/api/exchangerates/tables/A/?format=json");
 
@@ -28,20 +28,28 @@ class GetDataService
             }
 
             $sourceId = 1;
-            foreach ($rates as $rate) {
-                $code = $rate['code'];
-                $mid = $rate['mid'];
 
-                $this->exchangeRepository->insertExchange($code, $mid, $effectiveDate, $sourceId);
+            $check = $this->exchangeRepository->findDate($effectiveDate);
+            if ($check != NULL) {
+                return 'Dane z podaną datą już istnieją';
             }
-            return true;
+            else {
+
+                foreach ($rates as $rate) {
+                    $code = $rate['code'];
+                    $mid = $rate['mid'];
+
+                    $this->exchangeRepository->insertExchange($code, $mid, $effectiveDate, $sourceId);
+                }
+                return 'Dane zostały pobrane poprawnie';
+            }
         }
         else{
-            return false;
+            return 'Nie udało się pobrać danych z serwera NBP';
         }
     }
 
-    public function getDataFromFloatrates(): bool
+    public function getDataFromFloatrates(): string
     {
         $jsonContent = file_get_contents("https://www.floatrates.com/daily/pln.json");
 
@@ -49,17 +57,25 @@ class GetDataService
             $data = json_decode($jsonContent, true);
 
             $sourceId = 2;
-            foreach ($data as $rate) {
-                $code = $rate['code'];
-                $mid = $rate['inverseRate'];
-                $effectiveDate = date("Y-m-d", strtotime($rate['date']));
+            $effectiveDate = date("Y-m-d", strtotime($data['usd']['date']));
 
-                $this->exchangeRepository->insertExchange($code, $mid, $effectiveDate, $sourceId);
+            $check = $this->exchangeRepository->findDate($effectiveDate);
+            if ($check != NULL) {
+                return 'Dane z podaną datą już istnieją';
             }
-            return true;
+            else {
+                foreach ($data as $rate) {
+                    $code = $rate['code'];
+                    $mid = $rate['inverseRate'];
+                    $effectiveDate = date("Y-m-d", strtotime($rate['date']));
+
+                    $this->exchangeRepository->insertExchange($code, $mid, $effectiveDate, $sourceId);
+                }
+                return 'Dane zostały pobrane poprawnie';
+            }
         }
         else{
-            return false;
+            return 'Nie udało się pobrać danych z serwera FloatRates';
         }
 
     }

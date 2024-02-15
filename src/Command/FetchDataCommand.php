@@ -40,7 +40,7 @@ class FetchDataCommand extends Command
         $bank = $input->getArgument('from');
         $output->writeln($bank);
 
-        $result = false;
+        $result = '';
 
         $io = new SymfonyStyle($input, $output);
 
@@ -51,13 +51,7 @@ class FetchDataCommand extends Command
             $result = $this->getdataService->getDataFromFloatrates();
         }
 
-        if ($result == true){
-            $io->success('Operacja zakończona powodzeniem');
-        }
-        else {
-            $io->success('Operacja zakończona niepowodzeniem');
-        }
-
+        $io->success($result);
 
         return Command::SUCCESS;
     }

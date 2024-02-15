@@ -38,11 +38,11 @@ class ExchangeRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findCode($code): array
+    public function findDate($importat): array
     {
         return $this->createQueryBuilder('e')
-            ->andWhere('e.code = :code')
-            ->setParameter('code', $code)
+            ->andWhere('e.importAt = :importat')
+            ->setParameter('importat', $importat)
             ->orderBy('e.importAt', 'DESC')
             ->getQuery()
             ->getResult()

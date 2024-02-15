@@ -44,6 +44,7 @@ class ShowExchangeController extends AbstractController
             ->add('submit', SubmitType::class, [
                 'label' => 'Szukaj'
             ])
+//            ->setMethod('GET')
             ->getForm();
 
         $form->handleRequest($request);
