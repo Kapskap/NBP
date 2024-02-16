@@ -18,13 +18,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class ShowExchangeController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
-    public function home(): Response
-    {
-        return $this->render('base.html.twig');
-    }
 
-    #[Route('/browse/{date}', name: 'app_browse')]
+    #[Route('/{date}', name: 'app_browse')]
     public function browseExchange(Request $request, EntityManagerInterface $entityManager, string $date = null): Response
     {
         //pobieranie najnowszej daty
@@ -44,12 +39,13 @@ class ShowExchangeController extends AbstractController
             ->add('submit', SubmitType::class, [
                 'label' => 'Szukaj'
             ])
-//            ->setMethod('GET')
+            ->setMethod('GET')
             ->getForm();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $date = $form->get('query')->getData();
+//            $this->redirectToRoute('app_browse',[$date]);
         }
 
         //pobieranie danych z wybraną datą
@@ -87,21 +83,5 @@ class ShowExchangeController extends AbstractController
             'sc'=>$sc,
         ]);
     }
-
-//    #[Route('/test/{code}', name: 'app_test')]
-//    public function test($code, LanguageRepository $languageRepository): Response
-//    {
-//        $language = $languageRepository->findBy(['code' => $code]);
-//        if ($language == NULL) {
-//            throw $this->createNotFoundException('Nie znaleziono waluty o oznaczeniu '.$code);
-//        }
-//
-//$id = $language[0]->getId();
-//dd($language, $id);
-//
-//        return $this->render('exchange/show.html.twig', [
-//            'exchange'=>$language,
-//        ]);
-//    }
 
 }
