@@ -57,12 +57,12 @@ class ShowExchangeController extends AbstractController
         ]);
     }
 
-    #[Route('/show/{code}', name: 'app_show')]
-    public function show($code, ExchangeRepository $exchangeRepository): Response
+    #[Route('/show/{currencyId}', name: 'app_show')]
+    public function show($currencyId, ExchangeRepository $exchangeRepository): Response
     {
-        $exchange = $exchangeRepository->findBy(['code' => $code], ['importAt' => 'DESC']);
+        $exchange = $exchangeRepository->findBy(['currency' => $currencyId], ['importAt' => 'DESC']);
         if ($exchange == NULL) {
-            throw $this->createNotFoundException('Nie znaleziono waluty o oznaczeniu '.$code);
+            throw $this->createNotFoundException('Nie znaleziono waluty o identyfikatorze '.$currencyId);
         }
 
         foreach ($exchange as $key => $value) {

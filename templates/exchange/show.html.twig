@@ -43,7 +43,7 @@
                     <img src="/images/down.png" alt="DOWN">
                 {% endif %}
             </td>
-            <td>{{ rate.code }}</td>
+            <td>{{ rate.currency.code }}</td>
             <td><a href="{{ path('app_browse', {'date': rate.importat|date("Y-m-d") }) }}">{{ rate.importat|date("Y-m-d") }}</a></td>
         </tr>
             {% set counter= counter+1 %}

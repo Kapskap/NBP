@@ -22,7 +22,7 @@
 
         {% for rate in exchange %}
                 <tr>
-                    <td><a href="{{ path('app_show', {'code': rate.code }) }}">
+                    <td><a href="{{ path('app_show', {'currencyId': rate.currency.id }) }}">
                             {% if rate.currency.namePL is empty %}
                                 {{ rate.currency.nameEN }}
                             {% else %}
@@ -30,7 +30,7 @@
                             {% endif %}
                         </a></td>
                     <td> {{ rate.mid }} </td>
-                    <td><a href="{{ path('app_show', {'code': rate.code }) }}"> {{ rate.code }} </a></td>
+                    <td><a href="{{ path('app_show', {'currencyId': rate.currency.id }) }}"> {{ rate.currency.code }} </a></td>
                 </tr>
         {% endfor %}
 

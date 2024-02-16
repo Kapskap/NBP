@@ -17,9 +17,6 @@ class Exchange
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 5, nullable: true)]
-    private ?string $code = null;
-
     #[ORM\Column]
     private ?float $mid = null;
 
@@ -42,18 +39,6 @@ class Exchange
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCode(): ?string
-    {
-        return $this->code;
-    }
-
-    public function setCode(?string $code): static
-    {
-        $this->code = $code;
-
-        return $this;
     }
 
     public function getMid(): ?float

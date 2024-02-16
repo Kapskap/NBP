@@ -60,12 +60,11 @@ class ExchangeRepository extends ServiceEntityRepository
 //        $currencyId = $id[0]['id'];
 
 
-        $query = "INSERT INTO exchange (code, mid, import_at, source_id, currency_id)
-                    VALUES(:code, :mid, :import_at, :source_id, 
+        $query = "INSERT INTO exchange (mid, import_at, source_id, currency_id)
+                    VALUES(:mid, :import_at, :source_id, 
                            (SELECT currency.id FROM currency WHERE code=:code))";
 
         $result = $conn->executeQuery($query, [
-            'code' => $code,
             'mid' => $mid,
             'import_at' => $effectiveDate,
             'source_id' => $sourceId,
