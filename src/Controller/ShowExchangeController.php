@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Exchange;
-use App\Entity\Language;
+use App\Entity\Currency;
 use App\Repository\ExchangeRepository;
-use App\Repository\LanguageRepository;
+use App\Repository\CurrencyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;

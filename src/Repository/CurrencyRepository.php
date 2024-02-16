@@ -2,23 +2,23 @@
 
 namespace App\Repository;
 
-use App\Entity\Language;
+use App\Entity\Currency;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Language>
+ * @extends ServiceEntityRepository<Currency>
  *
- * @method Language|null find($code, $lockMode = null, $lockVersion = null)
- * @method Language|null findOneBy(array $criteria, array $orderBy = null)
- * @method Language[]    findAll()
- * @method Language[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Currency|null find($code, $lockMode = null, $lockVersion = null)
+ * @method Currency|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Currency[]    findAll()
+ * @method Currency[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LanguageRepository extends ServiceEntityRepository
+class CurrencyRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Language::class);
+        parent::__construct($registry, Currency::class);
     }
 
 //    /**

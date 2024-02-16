@@ -2,11 +2,11 @@
 
 namespace App\Service;
 
-use App\Entity\Language;
+use App\Entity\Currency;
 use App\Repository\ExchangeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Exchange;
-use App\Service\LanguageService;
+use App\Service\CurrencyService;
 
 class GetDataService
 {

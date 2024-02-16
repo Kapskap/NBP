@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\LanguageRepository;
+use App\Repository\CurrencyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: LanguageRepository::class)]
-class Language
+#[ORM\Entity(repositoryClass: CurrencyRepository::class)]
+class Currency
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

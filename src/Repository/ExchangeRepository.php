@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Exchange;
-use App\Entity\Language;
+use App\Entity\Currency;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
@@ -53,16 +53,16 @@ class ExchangeRepository extends ServiceEntityRepository
     {
         $conn = $this->getEntityManager()->getConnection();
 
-//        $select = "SELECT id FROM language WHERE code=:code";
+//        $select = "SELECT id FROM currency WHERE code=:code";
 //
 //        $r = $conn->executeQuery($select, ['code' => $code]);
 //        $id = $r->fetchAllAssociative();
-//        $languageId = $id[0]['id'];
+//        $currencyId = $id[0]['id'];
 
 
-        $query = "INSERT INTO exchange (code, mid, import_at, source_id, language_id)
+        $query = "INSERT INTO exchange (code, mid, import_at, source_id, currency_id)
                     VALUES(:code, :mid, :import_at, :source_id, 
-                           (SELECT language.id FROM language WHERE code=:code))";
+                           (SELECT currency.id FROM currency WHERE code=:code))";
 
         $result = $conn->executeQuery($query, [
             'code' => $code,

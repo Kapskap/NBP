@@ -2,12 +2,12 @@
 
 namespace App\Service;
 
-use App\Repository\LanguageRepository;
+use App\Repository\CurrencyRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Language;
+use App\Entity\Currency;
 
 
-class LanguageService
+class CurrencyService
 {
     private EntityManagerInterface $entityManager;
 
@@ -19,14 +19,14 @@ class LanguageService
     public function checkCode(string $code): int
     {
         $em = $this->entityManager;
-        $languageRepository = $em->getRepository(Language::class);
+        $currencyRepository = $em->getRepository(Currency::class);
 
-        $languages = $languageRepository->findBy(['code' => $code]);
-//        foreach ($languages as $language) {
-//            $id = $language->getId();
+        $currencyies = $currencyRepository->findBy(['code' => $code]);
+//        foreach ($currencyies as $currency) {
+//            $id = $currency->getId();
 //        }
 
-        $id = $languages[0]->getId();
+        $id = $currency[0]->getId();
         var_dump($id);
 //        dd($id);
         return $id;

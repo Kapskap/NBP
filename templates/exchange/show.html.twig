@@ -5,7 +5,7 @@
 {% block body %}
     <div class="content">
         Znaleziono <b> {{ exchange|length }} </b> kursy dla waluty
-        {{ exchange|last.language.namePL }}.
+        {{ exchange|last.currency.namePL }}.
         <br><br>
         Kliknij na wybraną datę aby wyświetlić kursy poszczególnych walut.
         <br><br>
@@ -27,10 +27,10 @@
         {% for rate in exchange %}
         <tr>
             <td>
-                {% if rate.language.namePL is empty %}
-                    {{ rate.language.nameEN }}
+                {% if rate.currency.namePL is empty %}
+                    {{ rate.currency.nameEN }}
                 {% else %}
-                    {{ rate.language.namePL }}
+                    {{ rate.currency.namePL }}
                 {% endif %}
             </td>
             <td> {{ rate.mid }} </td>

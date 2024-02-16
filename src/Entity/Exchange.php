@@ -31,7 +31,7 @@ class Exchange
     private ?Source $source = null;
 
     #[ORM\ManyToOne(inversedBy: 'exchanges')]
-    private ?Language $language = null;
+    private ?Currency $currency = null;
 
 
     public function __construct()
@@ -92,14 +92,14 @@ class Exchange
         return $this;
     }
 
-    public function getLanguage(): ?language
+    public function getCurrency(): ?Currency
     {
-        return $this->language;
+        return $this->currency;
     }
 
-    public function setLanguage(?language $language): static
+    public function setCurrency(?Currency $currency): static
     {
-        $this->language = $language;
+        $this->currency = $currency;
 
         return $this;
     }
