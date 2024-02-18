@@ -16,19 +16,22 @@ class CurrencyService
         $this->entityManager = $entityManager;
     }
 
-    public function checkCode(string $code): int
+    public function getIdFromCode(string $code): int
     {
         $em = $this->entityManager;
         $currencyRepository = $em->getRepository(Currency::class);
 
-        $currencyies = $currencyRepository->findBy(['code' => $code]);
-//        foreach ($currencyies as $currency) {
+        $currency = $currencyRepository->findBy(['code' => $code]);
+//        foreach ($currencies as $currency) {
 //            $id = $currency->getId();
 //        }
 
-        $id = $currency[0]->getId();
-        var_dump($id);
-//        dd($id);
-        return $id;
+        if ($currency != NULL){
+            $id = $currency[0]->getId();
+            return $id;
+        }
+        else{
+            return  0;
+        }
     }
 }

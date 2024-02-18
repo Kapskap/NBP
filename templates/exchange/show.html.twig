@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-    | show
+    | {{ exchange|first.currency.code }}
 {% endblock %}
 {% block body %}
     <div class="content">
@@ -11,14 +11,13 @@
         <br><br>
     </div>
 
-    <table style="width: 600px;">
+    <table style="width: 800px;">
         <tr>
             <td><b>Waluta</b></td>
             <td><b>Kurs</b></td>
             <td style="text-align: center;"><b>Różnica</b></td>
             <td style="text-align: center;"><b>Zmiana w %</b></td>
             <td></td>
-            <td><b>Oznaczenie</b></td>
             <td><b>Data</b></td>
 
         </tr>
@@ -43,7 +42,6 @@
                     <img src="/images/down.png" alt="DOWN">
                 {% endif %}
             </td>
-            <td>{{ rate.currency.code }}</td>
             <td><a href="{{ path('app_browse', {'date': rate.importat|date("Y-m-d") }) }}">{{ rate.importat|date("Y-m-d") }}</a></td>
         </tr>
             {% set counter= counter+1 %}

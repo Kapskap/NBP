@@ -4,15 +4,22 @@ namespace App\Service;
 
 use App\Entity\Currency;
 use App\Repository\ExchangeRepository;
+use App\Repository\CurrencyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Exchange;
 use App\Service\CurrencyService;
 
 class GetDataService
 {
-    public function __construct(private ExchangeRepository $exchangeRepository)
+    public function __construct(
+        private ExchangeRepository $exchangeRepository,
+        private  CurrencyService $currencyService,
+        private  CurrencyRepository $currencyRepository
+    )
     {
         $this->ExchangeRepository = $exchangeRepository;
+        $this->CurrencyRepository = $this->currencyRepository;
+        $this->currencyService = $currencyService;
     }
 
     public function getDataFromNBP(): string
@@ -28,7 +35,6 @@ class GetDataService
             }
 
             $sourceId = 1;
-
             $check = $this->exchangeRepository->findDate($effectiveDate);
             if ($check != NULL) {
                 return 'Dane z podaną datą już istnieją';
@@ -39,7 +45,16 @@ class GetDataService
                     $code = $rate['code'];
                     $mid = $rate['mid'];
 
-                    $this->exchangeRepository->insertExchange($code, $mid, $effectiveDate, $sourceId);
+                    //sprawdzenie czy podany kod waluty już istnieje, jeśli nie istnieje $currencyId = 0
+                    $currencyId = $this->currencyService->getIdFromCode($code);
+
+                    if($currencyId == 0){
+                        $name = $rate['currency'];
+                        $this->currencyRepository->insertCurrency($code, $name, '');
+                        $currencyId = $this->currencyService->getIdFromCode($code);
+                    }
+
+                    $this->exchangeRepository->insertExchange($mid, $effectiveDate, $sourceId, $currencyId);
                 }
                 return 'Dane zostały pobrane poprawnie';
             }
@@ -69,7 +84,16 @@ class GetDataService
                     $mid = $rate['inverseRate'];
                     $effectiveDate = date("Y-m-d", strtotime($rate['date']));
 
-                    $this->exchangeRepository->insertExchange($code, $mid, $effectiveDate, $sourceId);
+                    //sprawdzenie czy podany kod waluty już istnieje, jeśli nie istnieje $currencyId = 0
+                    $currencyId = $this->currencyService->getIdFromCode($code);
+
+                    if($currencyId == 0){
+                        $name = $rate['name'];
+                        $this->currencyRepository->insertCurrency($code, '', $name);
+                        $currencyId = $this->currencyService->getIdFromCode($code);
+                    }
+
+                    $this->exchangeRepository->insertExchange($mid, $effectiveDate, $sourceId, $currencyId);
                 }
                 return 'Dane zostały pobrane poprawnie';
             }

@@ -1,39 +1,51 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-    | show
+
 {% endblock %}
 {% block body %}
+
     <div class="form">
         <br>Podaj date do wyszukania:
         {{ form(form) }}
     </div>
 
-    <div class="content">
-        Znaleziono <b> {{ exchange|length }} </b> kursy walut z dnia
-        {{ exchange|last.importat|date("Y-m-d") }}.
-        <br><br>
-        Kliknij na wybraną walutę aby wyświetlić jej kurs z poszczególnych dni
-        <br><br>
-    </div>
+    {% if exchange is not empty %}
 
+        <div class="content">
+            Znaleziono <b> {{ exchange|length }} </b> kursy walut z dnia
+            {{ exchange|last.importat|date("Y-m-d") }}.
+            <br><br>
+            Kliknij na wybraną walutę aby wyświetlić jej kurs z poszczególnych dni
+            <br><br>
+        </div>
 
-    <table>
-        <tr><td><b>Waluta</b></td><td><b>Kurs</b></td><td><b>Oznaczenie</b></td></tr>
+        <table>
+            <tr><td><b>Oznaczenie</b></td><td><b>Waluta</b></td><td><b>Kurs</b></td></tr>
 
-        {% for rate in exchange %}
-                <tr>
-                    <td><a href="{{ path('app_show', {'currencyId': rate.currency.id }) }}">
-                            {% if rate.currency.namePL is empty %}
-                                {{ rate.currency.nameEN }}
-                            {% else %}
-                                {{ rate.currency.namePL }}
-                            {% endif %}
-                        </a></td>
-                    <td> {{ rate.mid }} </td>
-                    <td><a href="{{ path('app_show', {'currencyId': rate.currency.id }) }}"> {{ rate.currency.code }} </a></td>
-                </tr>
-        {% endfor %}
+            {% for rate in exchange %}
+                    <tr>
+                        <td><a href="{{ path('app_show', {'currencyId': rate.currency.id }) }}"> {{ rate.currency.code }} </a></td>
+                        <td><a href="{{ path('app_show', {'currencyId': rate.currency.id }) }}">
+                                {% if rate.currency.namePL is empty %}
+                                    {{ rate.currency.nameEN }}
+                                {% else %}
+                                    {{ rate.currency.namePL }}
+                                {% endif %}
+                            </a></td>
+                        <td> {{ rate.mid }} </td>
+                    </tr>
+            {% endfor %}
+        </table>
 
-    </table>
+    {% else %}
+
+        <div class="content">
+            Niestety nie znaleziono kursy walut z podaną datą.
+            <br><br>
+            <a href="{{ path('app_browse') }}">Podaj nową datę lub <i>powróć</i>  do przeglądania najnowszego wpisu. </a>
+            <br><br>
+        </div>
+
+    {% endif %}
 
 {% endblock %}

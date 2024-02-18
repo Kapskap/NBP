@@ -21,6 +21,21 @@ class CurrencyRepository extends ServiceEntityRepository
         parent::__construct($registry, Currency::class);
     }
 
+    public function insertCurrency(string $code, string $namePL, string $nameEN)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $query = "INSERT INTO currency (code, name_pl, name_en)
+                    VALUES(:code, :name_pl, :name_en, )";
+
+        $result = $conn->executeQuery($query, [
+            'code' => $code,
+            'name_pl' => $namePL,
+            'name_en' => $nameEN,
+        ]);
+
+    }
+
 //    /**
 //     * @return Language[] Returns an array of Language objects
 //     */
