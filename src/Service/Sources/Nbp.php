@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Service\Sources;
+
+use App\Service\Interfaces\SourceInterface;
+
 class Nbp implements SourceInterface
 {
     public function getData(): array

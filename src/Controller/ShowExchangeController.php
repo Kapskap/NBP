@@ -19,7 +19,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class ShowExchangeController extends AbstractController
 {
 
-    #[Route('/{date}', name: 'app_browse')]
+    #[Route('/browse/{date}', name: 'app_browse')]
     public function browseExchange(Request $request, EntityManagerInterface $entityManager, string $date = null): Response
     {
         //pobieranie najnowszej daty

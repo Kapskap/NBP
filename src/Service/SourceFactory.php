@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Service;
+
+use App\Service\Interfaces\SourceFactoryInterface;
+use App\Service\Interfaces\SourceInterface;
+
 class SourceFactory implements SourceFactoryInterface
 {
     public static function createObject(string $source): SourceInterface
