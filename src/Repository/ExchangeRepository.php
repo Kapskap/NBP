@@ -48,7 +48,6 @@ class ExchangeRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
-
     public function insertExchange(float $mid, string $effectiveDate, int $sourceId, int $currencyId)
     {
         $conn = $this->getEntityManager()->getConnection();

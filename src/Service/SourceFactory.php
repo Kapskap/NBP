@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Service\Interfaces\SourceFactoryInterface;
 use App\Service\Interfaces\SourceInterface;
+use App\Service\Sources\Nbp;
+use App\Service\Sources\FloatRates;
 
 class SourceFactory implements SourceFactoryInterface
 {
@@ -25,5 +27,6 @@ class SourceFactory implements SourceFactoryInterface
     foreach ($sources as $source) {
         $source = SourceFactory::createObject($source);    //SourceInterface
         $rates = $source->getData();
+        dd($rates);
         //coś robimy z tym $rates
     }
