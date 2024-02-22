@@ -36,6 +36,18 @@ class CurrencyRepository extends ServiceEntityRepository
 
     }
 
+    public  function getIdByCode(string $code)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.code = :code')
+            ->setParameter('code', $code)
+//            ->orderBy('e.mid', 'DESC')
+//            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Language[] Returns an array of Language objects
 //     */

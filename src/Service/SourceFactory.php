@@ -6,9 +6,14 @@ use App\Service\Interfaces\SourceFactoryInterface;
 use App\Service\Interfaces\SourceInterface;
 use App\Service\Sources\Nbp;
 use App\Service\Sources\FloatRates;
+use App\Service\CheckDataService;
 
 class SourceFactory implements SourceFactoryInterface
 {
+    public function __construct(private  CheckDataService $checkDataService)
+    {
+        $this->checkDataService = $checkDataService;
+    }
     public static function createObject(string $source): SourceInterface
     {
         if ($source === 'NBP') {
@@ -27,6 +32,12 @@ class SourceFactory implements SourceFactoryInterface
     foreach ($sources as $source) {
         $source = SourceFactory::createObject($source);    //SourceInterface
         $rates = $source->getData();
-        dd($rates);
-        //coś robimy z tym $rates
+
+        $effectiveDate = $rates['effectiveDate'];
+        $sourceId = $rates['sourceId'];
+//        dd($rates, $effectiveDate, $sourceId);
+
+        $test = $this->checkDataService->checkDate($effectiveDate, $sourceId, $rates);
+dd($test);
+
     }
