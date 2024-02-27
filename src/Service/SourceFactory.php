@@ -14,7 +14,7 @@ class SourceFactory implements SourceFactoryInterface
     {
         $this->checkDataService = $checkDataService;
     }
-    public static function createObject(string $source): SourceInterface
+    public function createObject(string $source): SourceInterface
     {
         if ($source === 'NBP') {
             return new Nbp();
@@ -27,17 +27,16 @@ class SourceFactory implements SourceFactoryInterface
         throw new \InvalidArgumentException("Unsupported Source");
     }
 }
-    $sources = ['NBP', 'FloatRates'];
-
-    foreach ($sources as $source) {
-        $source = SourceFactory::createObject($source);    //SourceInterface
-        $rates = $source->getData();
-
-        $effectiveDate = $rates['effectiveDate'];
-        $sourceId = $rates['sourceId'];
-//        dd($rates, $effectiveDate, $sourceId);
-
-        $test = $this->checkDataService->checkDate($effectiveDate, $sourceId, $rates);
-dd($test);
-
-    }
+//    $sources = ['NBP', 'FloatRates'];
+//
+//    foreach ($sources as $source) {
+//        $source = new createObject($source);    //SourceInterface
+//        $rates = $source->getData();
+//
+//        $effectiveDate = $rates['effectiveDate'];
+//        $sourceId = $rates['sourceId'];
+//dd($rates, $effectiveDate, $sourceId);
+//
+//        $test = $this->checkDataService->checkDate($effectiveDate, $sourceId, $rates);
+//dd($test);
+//    }

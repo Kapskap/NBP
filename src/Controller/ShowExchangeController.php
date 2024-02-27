@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -42,6 +43,13 @@ class ShowExchangeController extends AbstractController
                 'data' => $date,
                 'required' => false,
             ])
+//            ->add('Dane_z_', ChoiceType::class, [
+//                'choices'  => [
+//                    'Wszystko' => null,
+//                    'NBP' => '1',
+//                    'FloatRates' => '2',
+//                ],
+//            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Szukaj'
             ])
