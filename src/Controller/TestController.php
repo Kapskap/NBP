@@ -22,7 +22,7 @@ class TestController extends AbstractController
         $this->sourceFactory = $sourceFactory;
     }
 
-    #[Route('/test', name: 'app_test')]
+    #[Route('/test', priority: 10, name: 'app_test')]
     public function show(): Response
     {
 //        $result1 = $this->nbp->getData();
