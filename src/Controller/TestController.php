@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Service\Sources\Nbp;
 use App\Service\Sources\FloatRates;
 use App\Service\SourceFactory;
+use App\Service\Manager\ExchangeManager;
 
 class TestController extends AbstractController
 {
@@ -17,21 +18,30 @@ class TestController extends AbstractController
 //        $this->floatRates = $floatRates;
 //    }
 
-    public  function __construct(private SourceFactory $sourceFactory)
+    public  function __construct(private SourceFactory $sourceFactory, private ExchangeManager $exchangeManager)
     {
         $this->sourceFactory = $sourceFactory;
+        $this->exchangeManager = $exchangeManager;
     }
 
     #[Route('/test', priority: 10, name: 'app_test')]
     public function show(): Response
     {
+        $result = $this->sourceFactory->createObject('NBP');
+        $sourceId = 1;
+        if ($result != NULL) {
+            $result = $result->getData();
+
+            $effectiveDate = $result['effectiveDate'];
+            $rates = $result['rates'];
+
+            $check = $this->exchangeManager->checkAndAddData($effectiveDate, $sourceId, $rates);
 //        $result1 = $this->nbp->getData();
 //        $result2 = $this->floatRates->getData();
+        }
 
-        $result1 = $this->sourceFactory->createObject('NBP');
-        $result2 = $result1->getData();
 
-        dd($result2);
+        dd($result);
 
         return $this->render('exchange/show.html.twig', [
 

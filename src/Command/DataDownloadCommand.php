@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use App\Service\SourceFactory;
+use App\Service\Manager\ExchangeManager;
 
 #[AsCommand(
     name: 'app:data-download',
@@ -17,8 +18,9 @@ use App\Service\SourceFactory;
 )]
 class DataDownloadCommand extends Command
 {
-    public function __construct(private SourceFactory $sourceFactory)
+    public function __construct(private SourceFactory $sourceFactory, private ExchangeManager $exchangeManager)
     {
+        $this->exchangeManager = $exchangeManager;
         parent::__construct();
     }
 
@@ -40,21 +42,38 @@ class DataDownloadCommand extends Command
         $bank = $input->getArgument('from');
         $output->writeln($bank);
 
-        $result = '';
+//        $result = '';
 
         $io = new SymfonyStyle($input, $output);
 
-        if($bank == 'nbp'){
+        if ($bank == 'nbp') {
             $result = $this->sourceFactory->createObject('NBP');
-        }
-        elseif($bank == 'floatrates'){
+            $sourceId = 1;
+        } elseif ($bank == 'floatrates') {
             $result = $this->sourceFactory->createObject('FloatRates');
+            $sourceId = 2;
         }
-        $result = $result->getData();
+        else {
+            $result = NULL;
+        }
+        if ($result != NULL) {
+            $result = $result->getData();
 
-        dd($result);
+            $effectiveDate = $result['effectiveDate'];
+            $rates = $result['rates'];
 
-        $io->success($result);
+            $check = $this->exchangeManager->checkAndAddData($effectiveDate, $sourceId, $rates);
+            if ($check == true) {
+                $message = 'Dane zostały pobrane poprawnie';
+            } else {
+                $message = 'Dane z podaną datą już istnieją';
+            }
+        }
+        else{
+            $message = 'Operacja nie powiodła się nalezy podać źródło danych czyli: nbp lub floatrates';
+        }
+
+        $io->success($message);
 
         return Command::SUCCESS;
     }
