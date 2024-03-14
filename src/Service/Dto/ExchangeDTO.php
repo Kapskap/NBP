@@ -2,41 +2,37 @@
 
 namespace App\Service\Dto;
 
-use App\Service\Dto\RateDTO;
 use Doctrine\Common\Collections\ArrayCollection;
-use function Clue\StreamFilter\append;
-
 
 class ExchangeDTO
 {
     protected string $effectiveDate;
     protected int $sourceId;
-    protected array $rates;
-    protected arraycollection $rateDTO;
+    protected ArrayCollection $rates;
 
-//    public function __construct(private RateDTO $rateDTO)
-//    {
-//        $this->rateDTO = $rateDTO;
-//    }
+    public function __construct()
+    {
+       $this->rates = new ArrayCollection();
+    }
 
-    public  function getDTO(string $effectiveDate, int $sourceId, array $rates)
+    public  function setDTO(string $effectiveDate, int $sourceId, array $rates)
     {
         $this->setEffectiveDate($effectiveDate);
         $this->setSourceId($sourceId);
-//        $this->setRates($rates);
 
-        foreach ($rates as $i => $rate) {
+        foreach ($rates as $rate) {
+            $rateDTO = new RateDTO();
+            $rateDTO->setCurrency($rate['currency']);
+            $rateDTO->setCode($rate['code']);
+            $rateDTO->setMid($rate['mid']);
 
-            $rateDTO = new RateDTO($i, $rate['currency'], $rate['code'], $rate['mid']);
-            dd($rateDTO);
             $this->addRate($rateDTO);
         }
     }
 
     public function addRate(RateDTO $rateDTO)
     {
-        $this->rates[] = $rateDTO;
-        //ArrayCollection
+//        $this->rates[] = $rateDTO;
         $this->rates->add($rateDTO);
     }
 
@@ -78,14 +74,6 @@ class ExchangeDTO
     public function getRates(): array
     {
         return $this->rates;
-    }
-
-    /**
-     * @param array $rates
-     */
-    public function setRates(array $rates): void
-    {
-        $this->rates = new ArrayCollection($rates);
     }
 
 }

@@ -43,9 +43,10 @@ class TestController extends AbstractController
             $rates = $result['rates'];
             $sourceId = $result['sourceId'];
 
-            $dto = $this->exchangeDTO->getDTO($effectiveDate, $sourceId, $rates);
+            $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates);
+//            $dto = $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates);
 
-            dd($dto);
+            dd($this->exchangeDTO);
 
 //            $rates2 = new ArrayCollection($rates);
 //            dd($result, $effectiveDate, $rates, $sourceId, $rates2);
