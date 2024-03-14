@@ -9,6 +9,8 @@ use App\Service\Sources\Nbp;
 use App\Service\Sources\FloatRates;
 use App\Service\SourceFactory;
 use App\Service\Manager\ExchangeManager;
+use App\Service\Dto\ExchangeDTO;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class TestController extends AbstractController
 {
@@ -18,24 +20,37 @@ class TestController extends AbstractController
 //        $this->floatRates = $floatRates;
 //    }
 
-    public  function __construct(private SourceFactory $sourceFactory, private ExchangeManager $exchangeManager)
+    public  function __construct(
+        private SourceFactory $sourceFactory,
+        private ExchangeManager $exchangeManager,
+        private ExchangeDTO $exchangeDTO
+    )
     {
         $this->sourceFactory = $sourceFactory;
         $this->exchangeManager = $exchangeManager;
+        $this->exchangeDTO = $exchangeDTO;
     }
 
     #[Route('/test', priority: 10, name: 'app_test')]
     public function show(): Response
     {
         $result = $this->sourceFactory->createObject('NBP');
-        $sourceId = 1;
+
         if ($result != NULL) {
             $result = $result->getData();
-
+//dd($result);
             $effectiveDate = $result['effectiveDate'];
             $rates = $result['rates'];
+            $sourceId = $result['sourceId'];
 
-            $check = $this->exchangeManager->checkAndAddData($effectiveDate, $sourceId, $rates);
+            $dto = $this->exchangeDTO->getDTO($effectiveDate, $sourceId, $rates);
+
+            dd($dto);
+
+//            $rates2 = new ArrayCollection($rates);
+//            dd($result, $effectiveDate, $rates, $sourceId, $rates2);
+
+//            $check = $this->exchangeManager->checkAndAddData($effectiveDate, $sourceId, $rates);
 //        $result1 = $this->nbp->getData();
 //        $result2 = $this->floatRates->getData();
         }

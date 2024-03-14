@@ -48,10 +48,8 @@ class DataDownloadCommand extends Command
 
         if ($bank == 'nbp') {
             $result = $this->sourceFactory->createObject('NBP');
-            $sourceId = 1;
         } elseif ($bank == 'floatrates') {
             $result = $this->sourceFactory->createObject('FloatRates');
-            $sourceId = 2;
         }
         else {
             $result = NULL;
@@ -60,6 +58,7 @@ class DataDownloadCommand extends Command
             $result = $result->getData();
 
             $effectiveDate = $result['effectiveDate'];
+            $sourceId = $result['sourceId'];
             $rates = $result['rates'];
 
             $check = $this->exchangeManager->checkAndAddData($effectiveDate, $sourceId, $rates);
