@@ -2,21 +2,11 @@
 
 namespace App\Service\Dto;
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 class RateDTO
 {
     protected string $currency;
     protected string $code;
     protected float $mid;
-
-//    public function set(string $currency, string $code, float $mid): arraycollection
-//    {
-//        $rates[$i]['currency'] = $currency;
-//        $rates[$i]['code'] = $code;
-//        $rates[$i]['mid'] = $mid;
-//        return $rates;
-//    }
 
     /**
      * @return string
@@ -65,6 +55,5 @@ class RateDTO
     {
         $this->mid = $mid;
     }
-
 
 }

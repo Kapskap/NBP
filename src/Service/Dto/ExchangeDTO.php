@@ -32,8 +32,8 @@ class ExchangeDTO
 
     public function addRate(RateDTO $rateDTO)
     {
-//        $this->rates[] = $rateDTO;
-        $this->rates->add($rateDTO);
+//        $this->rates[] = $rateDTO; //array
+        $this->rates->add($rateDTO); //ArrayCollection
     }
 
     /**
@@ -73,7 +73,7 @@ class ExchangeDTO
      */
     public function getRates(): array
     {
-        return $this->rates;
+        return $this->rates->getValues();
     }
 
 }

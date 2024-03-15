@@ -10,20 +10,18 @@ use App\Service\Sources\FloatRates;
 use App\Service\SourceFactory;
 use App\Service\Manager\ExchangeManager;
 use App\Service\Dto\ExchangeDTO;
+use App\Service\Dto\RateDTO;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class TestController extends AbstractController
 {
-//    public function __construct(private Nbp $nbp, private  FloatRates $floatRates)
-//    {
-//        $this->nbp = $nbp;
-//        $this->floatRates = $floatRates;
-//    }
+
 
     public  function __construct(
         private SourceFactory $sourceFactory,
         private ExchangeManager $exchangeManager,
-        private ExchangeDTO $exchangeDTO
+        private ExchangeDTO $exchangeDTO,
+        private RateDTO $rateDTO
     )
     {
         $this->sourceFactory = $sourceFactory;
@@ -46,7 +44,7 @@ class TestController extends AbstractController
             $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates);
 //            $dto = $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates);
 
-            dd($this->exchangeDTO);
+            dd($this->exchangeDTO->getRates()[2]->getCurrency() );
 
 //            $rates2 = new ArrayCollection($rates);
 //            dd($result, $effectiveDate, $rates, $sourceId, $rates2);
