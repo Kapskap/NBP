@@ -20,7 +20,7 @@ class ExchangeManager
         $this->currencyManager = $currencyManager;
     }
 
-    public function checkAndAddData(object $dto): Bool
+    public function AddData(object $dto): Bool
     {
         $effectiveDate = $this->exchangeDTO->geteffectiveDate();
         $check = $this->exchangeRepository->findDate($effectiveDate); //Sprawdzenie czy dane z podaną datą są już w bazie

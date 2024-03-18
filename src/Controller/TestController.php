@@ -11,7 +11,7 @@ use App\Service\SourceFactory;
 use App\Service\Manager\ExchangeManager;
 use App\Service\Dto\ExchangeDTO;
 use App\Service\Dto\RateDTO;
-use Doctrine\Common\Collections\ArrayCollection;
+
 
 class TestController extends AbstractController
 {
@@ -32,8 +32,8 @@ class TestController extends AbstractController
     #[Route('/test', priority: 10, name: 'app_test')]
     public function show(): Response
     {
-        $result = $this->sourceFactory->createObject('NBP');
-//dd($result);
+        $result = $this->sourceFactory->createObject('Narodowy Bank Polski');
+
         if ($result != NULL) {
             $result = $result->getData();
 //dd($result);
@@ -42,14 +42,10 @@ class TestController extends AbstractController
             $sourceId = $result['sourceId'];
 
             $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates);
-//            $dto = $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates);
-dd($this->exchangeDTO->getRates());
+
             dd($this->exchangeDTO->getRates()[2]->getCurrency() );
 
-//            $rates2 = new ArrayCollection($rates);
-//            dd($result, $effectiveDate, $rates, $sourceId, $rates2);
-
-//            $check = $this->exchangeManager->checkAndAddData($effectiveDate, $sourceId, $rates);
+//            $check = $this->exchangeManager->AddData($effectiveDate, $sourceId, $rates);
 //        $result1 = $this->nbp->getData();
 //        $result2 = $this->floatRates->getData();
         }

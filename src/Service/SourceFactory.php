@@ -12,11 +12,11 @@ class SourceFactory implements SourceFactoryInterface
 {
     public function createObject(string $source): SourceInterface
     {
-        if ($source === 'NBP') {
+        if ($source === 'Narodowy Bank Polski') {
             return new Nbp();
         }
 
-        if ($source === 'FloatRates') {
+        if ($source === 'Float Rates') {
             return new FloatRates();
         }
 
