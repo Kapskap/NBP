@@ -33,7 +33,7 @@ class TestController extends AbstractController
     public function show(): Response
     {
         $result = $this->sourceFactory->createObject('NBP');
-
+//dd($result);
         if ($result != NULL) {
             $result = $result->getData();
 //dd($result);
@@ -43,7 +43,7 @@ class TestController extends AbstractController
 
             $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates);
 //            $dto = $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates);
-
+dd($this->exchangeDTO->getRates());
             dd($this->exchangeDTO->getRates()[2]->getCurrency() );
 
 //            $rates2 = new ArrayCollection($rates);

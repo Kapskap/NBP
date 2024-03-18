@@ -11,6 +11,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use App\Service\SourceFactory;
 use App\Service\Manager\ExchangeManager;
+use App\Service\Dto\ExchangeDTO;
+use App\Service\Dto\RateDTO;
 
 #[AsCommand(
     name: 'app:data-download',
@@ -18,9 +20,15 @@ use App\Service\Manager\ExchangeManager;
 )]
 class DataDownloadCommand extends Command
 {
-    public function __construct(private SourceFactory $sourceFactory, private ExchangeManager $exchangeManager)
+    public function __construct(
+        private SourceFactory $sourceFactory,
+        private ExchangeManager $exchangeManager,
+        private ExchangeDTO $exchangeDTO,
+        private RateDTO $rateDTO
+    )
     {
         $this->exchangeManager = $exchangeManager;
+        $this->exchangeDTO = $exchangeDTO;
         parent::__construct();
     }
 
@@ -42,8 +50,6 @@ class DataDownloadCommand extends Command
         $bank = $input->getArgument('from');
         $output->writeln($bank);
 
-//        $result = '';
-
         $io = new SymfonyStyle($input, $output);
 
         if ($bank == 'nbp') {
@@ -55,13 +61,17 @@ class DataDownloadCommand extends Command
             $result = NULL;
         }
         if ($result != NULL) {
-            $result = $result->getData();
+            $result = $result->getData(); //Pobieranie danych
 
             $effectiveDate = $result['effectiveDate'];
             $sourceId = $result['sourceId'];
             $rates = $result['rates'];
 
-            $check = $this->exchangeManager->checkAndAddData($effectiveDate, $sourceId, $rates);
+            $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates); //Zamiana tablicy na objekt DTO
+
+            $check = $this->exchangeManager->checkAndAddData($this->exchangeDTO);
+
+//            $check = $this->exchangeManager->checkAndAddData($effectiveDate, $sourceId, $rates);
             if ($check == true) {
                 $message = 'Dane zostały pobrane poprawnie';
             } else {
