@@ -18,7 +18,7 @@ class Exchange
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?float $mid = null;
+    private ?int $mid = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $importAt = null;
