@@ -35,10 +35,11 @@ class TestController extends AbstractController
     public function show(): Response
     {
         $result = $this->sourceFactory->createObject('Narodowy Bank Polski');
+//        $result = $this->sourceFactory->createObject('Float Rates');
 
         if ($result != NULL) {
             $result = $result->getData();
-//dd($result);
+dd($result);
             $effectiveDate = $result['effectiveDate'];
             $rates = $result['rates'];
             $sourceId = $result['sourceId'];

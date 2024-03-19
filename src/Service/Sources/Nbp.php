@@ -15,10 +15,22 @@ class Nbp implements SourceInterface
 
             foreach ($data as $array) {
                 $effectiveDate = $array['effectiveDate'];
-                $rates = $array['rates'];
+                $data = $array['rates'];
             }
 
             $sourceId = 1;
+
+            $rates = [];
+            $i = 0;
+            foreach ($data as $rate) {
+                $currency = $rate['currency'];
+                $code = $rate['code'];
+                $mid = round($rate['mid']*100000000, 0);
+                $rates[$i]['currency'] = $currency;
+                $rates[$i]['code'] = $code;
+                $rates[$i]['mid'] = $mid;
+                $i++;
+            }
 
             return [
                 'effectiveDate' => $effectiveDate,
