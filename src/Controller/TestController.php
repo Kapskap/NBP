@@ -11,6 +11,8 @@ use App\Service\SourceFactory;
 use App\Service\Manager\ExchangeManager;
 use App\Service\Dto\ExchangeDTO;
 use App\Service\Dto\RateDTO;
+use Money\Currency;
+use Money\Money;
 
 
 class TestController extends AbstractController
@@ -42,7 +44,8 @@ class TestController extends AbstractController
             $sourceId = $result['sourceId'];
 
             $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates);
-
+            $fiver = Money::PLN(500);
+            dd($fiver);
             dd($this->exchangeDTO->getRates()[2]->getCurrency() );
 
 //            $check = $this->exchangeManager->AddData($effectiveDate, $sourceId, $rates);
