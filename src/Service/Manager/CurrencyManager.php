@@ -15,10 +15,9 @@ class CurrencyManager
     public function CheckAndAddCurrency(string $code, string $name, int $sourceId): int
     {
         $currency = $this->currencyRepository->getIdByCode($code);
-        $currencyId = $currency[0]->getId();
 
         //Gdy kod waluty nie zostaje znaleziony dodanie go wraz z nazwą do tabeli currency
-        if($currencyId == NULL) {
+        if (!isset($currency[0])) {
             if ($sourceId == 1) {
                 $namePl = $name;
                 $nameEn = '';
@@ -29,8 +28,8 @@ class CurrencyManager
             }
             $this->currencyRepository->insertCurrency($code, $namePl, $nameEn);
             $currency = $this->currencyRepository->getIdByCode($code);
-            $currencyId = $currency[0]->getId();
         }
+        $currencyId = $currency[0]->getId();
         return $currencyId;
     }
 

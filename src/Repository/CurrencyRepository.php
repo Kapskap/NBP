@@ -26,7 +26,7 @@ class CurrencyRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $query = "INSERT INTO currency (code, name_pl, name_en)
-                    VALUES(:code, :name_pl, :name_en, )";
+                    VALUES(:code, :name_pl, :name_en )";
 
         $result = $conn->executeQuery($query, [
             'code' => $code,
