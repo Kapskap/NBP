@@ -39,15 +39,26 @@ class TestController extends AbstractController
 
         if ($result != NULL) {
             $result = $result->getData();
-dd($result);
+//dd($result);
             $effectiveDate = $result['effectiveDate'];
             $rates = $result['rates'];
             $sourceId = $result['sourceId'];
 
             $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates);
+
+dd($this->exchangeDTO->getRates()[2]->getMid()->getAmount());
+dd($this->exchangeDTO->getRates()[2]->getMid()->getCurrency()->getCode());
+
+//dd($this->exchangeDTO->getRates()[2]->getCurrency() );
+
+
+            //money test
             $fiver = Money::PLN(500);
-            dd($fiver);
-            dd($this->exchangeDTO->getRates()[2]->getCurrency() );
+            $coupon = new Money(50, new currency('PLN'));
+            $fiver  = $fiver->subtract($coupon);
+ dd($fiver, $coupon);
+
+
 
 //            $check = $this->exchangeManager->AddData($effectiveDate, $sourceId, $rates);
 //        $result1 = $this->nbp->getData();

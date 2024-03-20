@@ -2,11 +2,13 @@
 
 namespace App\Service\Dto;
 
+use Money\Money;
+
 class RateDTO
 {
     protected string $currency;
     protected string $code;
-    protected float $mid;
+    protected Money $mid;
 
     /**
      * @return string
@@ -43,7 +45,7 @@ class RateDTO
     /**
      * @return float
      */
-    public function getMid(): float
+    public function getMid(): Money
     {
         return $this->mid;
     }
@@ -51,7 +53,7 @@ class RateDTO
     /**
      * @param float $mid
      */
-    public function setMid(float $mid): void
+    public function setMid(Money $mid): void
     {
         $this->mid = $mid;
     }

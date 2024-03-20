@@ -3,6 +3,8 @@
 namespace App\Service\Dto;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Money\Currency;
+use Money\Money;
 
 class ExchangeDTO
 {
@@ -24,7 +26,8 @@ class ExchangeDTO
             $rateDTO = new RateDTO();
             $rateDTO->setCurrency($rate['currency']);
             $rateDTO->setCode($rate['code']);
-            $rateDTO->setMid($rate['mid']);
+            $rateDTO->setMid(Money::PLN($rate['mid']));
+//            $rateDTO->setMid($rate['mid']);
 
             $this->addRate($rateDTO);
         }

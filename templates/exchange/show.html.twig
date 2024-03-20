@@ -14,7 +14,7 @@
     <table style="width: 800px;">
         <tr>
             <td><b>Waluta</b></td>
-            <td><b>Kurs</b></td>
+            <td><b>Kurs w PLN</b></td>
             <td style="text-align: center;"><b>Różnica</b></td>
             <td style="text-align: center;"><b>Zmiana w %</b></td>
             <td></td>
@@ -33,7 +33,7 @@
                 {% endif %}
             </td>
             <td> {{ rate.mid/100000000 }} </td>
-            <td style="text-align: center;"> {{ sub[counter]|round(4, 'common') }} </td>
+            <td style="text-align: center;"> {{ sub[counter]|round(4, 'common')/100000000 }} </td>
             <td style="text-align: center;"> {{ sc[counter]|round(3, 'common') }} % </td>
             <td>
                 {% if sub[counter] > 0 %}

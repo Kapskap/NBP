@@ -50,7 +50,7 @@ class DataDownloadCommand extends Command
 
         $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates); //Zamiana tablicy na obiekt DTO
 
-        $check = $this->exchangeManager->AddData($this->exchangeDTO);
+        $check = $this->exchangeManager->AddData($this->exchangeDTO); //Dodawanie danych do bazy
 
         if ($check == true) {
             $io->success('Dane zostały pobrane poprawnie');

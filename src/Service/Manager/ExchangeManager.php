@@ -31,7 +31,7 @@ class ExchangeManager
             $rates = $this->exchangeDTO->getRates();
             foreach ($rates as $rate) {
                 $code = $rate->getCode();
-                $mid = $rate->getMid();
+                $mid = $rate->getMid()->getAmount();
                 $name = $rate->getCurrency();
 
                 $currencyId = $this->currencyManager->CheckAndAddCurrency($code, $name, $sourceId);

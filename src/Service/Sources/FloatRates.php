@@ -18,7 +18,7 @@ class FloatRates implements SourceInterface
             foreach ($data as $rate) {
                 $currency = $rate['name'];
                 $code = $rate['code'];
-                $mid = round($rate['inverseRate']*100000000, 0);
+                $mid = (int)round($rate['inverseRate']*100000000, 0);
                 $rates[$i]['currency'] = $currency;
                 $rates[$i]['code'] = $code;
                 $rates[$i]['mid'] = $mid;

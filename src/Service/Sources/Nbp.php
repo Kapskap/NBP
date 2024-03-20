@@ -25,7 +25,7 @@ class Nbp implements SourceInterface
             foreach ($data as $rate) {
                 $currency = $rate['currency'];
                 $code = $rate['code'];
-                $mid = round($rate['mid']*100000000, 0);
+                $mid = (int)round($rate['mid']*100000000, 0);
                 $rates[$i]['currency'] = $currency;
                 $rates[$i]['code'] = $code;
                 $rates[$i]['mid'] = $mid;
