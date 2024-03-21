@@ -29,6 +29,19 @@ class CurrencyManager
             $this->currencyRepository->insertCurrency($code, $namePl, $nameEn);
             $currency = $this->currencyRepository->getIdByCode($code);
         }
+        else { //sprawdzenie i ewntualne dodanie nazwy waluty do tabeli currency
+            $namePl = $currency[0]->getNamePL();
+            $nameEn = $currency[0]->getNameEN();
+            if (($sourceId == 1) && ($namePl != $name)){
+                $namePl = $name;
+                $this->currencyRepository->updateCurrency($code, $namePl, $nameEn);
+            }
+            if (($sourceId == 2) && ($nameEn != $name)){
+                $nameEn = $name;
+                $this->currencyRepository->updateCurrency($code, $namePl, $nameEn);
+            }
+        }
+
         $currencyId = $currency[0]->getId();
         return $currencyId;
     }

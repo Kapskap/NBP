@@ -36,6 +36,21 @@ class CurrencyRepository extends ServiceEntityRepository
 
     }
 
+    public function updateCurrency(string $code, string $namePL, string $nameEN)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $query = "UPDATE currency SET name_pl = :name_pl, name_en = :name_en
+                    WHERE code = :code";
+
+        $result = $conn->executeQuery($query, [
+            'code' => $code,
+            'name_pl' => $namePL,
+            'name_en' => $nameEN,
+        ]);
+
+    }
+
     public  function getIdByCode(string $code)
     {
         return $this->createQueryBuilder('c')
