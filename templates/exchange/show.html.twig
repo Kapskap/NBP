@@ -32,8 +32,8 @@
                     {{ rate.currency.namePL }}
                 {% endif %}
             </td>
-            <td> {{ rate.mid/100000000 }} </td>
-            <td style="text-align: center;"> {{ sub[counter]|round(4, 'common')/100000000 }} </td>
+            <td> {{ rate.mid/divider }} </td>
+            <td style="text-align: center;"> {{ sub[counter]|round(4, 'common')/divider }} </td>
             <td style="text-align: center;"> {{ sc[counter]|round(3, 'common') }} % </td>
             <td>
                 {% if sub[counter] > 0 %}

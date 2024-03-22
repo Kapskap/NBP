@@ -8,6 +8,7 @@ class Nbp implements SourceInterface
 {
     public function getData(): array
 	{
+        $divider = 100000000;
         $jsonContent = file_get_contents("https://api.nbp.pl/api/exchangerates/tables/A/?format=json");
 
         if ($jsonContent != NULL) {
@@ -25,7 +26,7 @@ class Nbp implements SourceInterface
             foreach ($data as $rate) {
                 $currency = $rate['currency'];
                 $code = $rate['code'];
-                $mid = (int)round($rate['mid']*100000000, 0);
+                $mid = (int)round($rate['mid']*$divider, 0);
                 $rates[$i]['currency'] = $currency;
                 $rates[$i]['code'] = $code;
                 $rates[$i]['mid'] = $mid;

@@ -20,7 +20,7 @@
         </div>
 
         <table>
-            <tr><td><b>Oznaczenie</b></td><td><b>Waluta</b></td><td><b>Kurs w PLN</b></td></tr>
+            <tr><td><b>Oznaczenie</b></td><td><b>Waluta</b></td><td><b>Kurs w PLN</b></td><td><b>Źródło danych</b></td></tr>
 
             {% for rate in exchange %}
                     <tr>
@@ -32,7 +32,8 @@
                                     {{ rate.currency.namePL }}
                                 {% endif %}
                             </a></td>
-                        <td> {{ rate.mid/100000000 }} </td>
+                        <td> {{ rate.mid/divider}} </td>
+                        <td> {{ rate.source.name }} </td>
                     </tr>
             {% endfor %}
         </table>
@@ -40,9 +41,9 @@
     {% else %}
 
         <div class="content">
-            Niestety nie znaleziono kursy walut z podaną datą.
+            Niestety nie znaleziono kursu walut z zadanymi wartościami.
             <br><br>
-            <a href="{{ path('app_browse') }}">Podaj nową datę lub <i>powróć</i>  do przeglądania najnowszego wpisu. </a>
+            <a href="{{ path('app_browse') }}">Podaj nowe kryteria lub <i>powróć</i>  do przeglądania najnowszego wpisu. </a>
             <br><br>
         </div>
 

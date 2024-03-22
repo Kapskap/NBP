@@ -20,10 +20,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 class ShowExchangeController extends AbstractController
 {
     #[Route('/{date}', name: 'app_browse')]
-    public function browseExchange(Request $request, EntityManagerInterface $entityManager, string $date = null): Response
+    public function browseExchange(Request $request, EntityManagerInterface $entityManager, string $date = null, int $sourceId = null, int $divider = 100000000): Response
     {
         //pobieranie najnowszej daty
-        if ($date == NULL) {
+        if ($date === NULL) {
             $exchangeRepository = $entityManager->getRepository(Exchange::class);
             $date = $exchangeRepository->findOneBy([], ['importAt' => 'DESC']);
             $date = $date->getImportAt()->format("Y-m-d");
@@ -31,18 +31,18 @@ class ShowExchangeController extends AbstractController
 
         //formularz do obsługi daty
         $form = $this->createFormBuilder()
-            ->add('query', TextType::class, [
+            ->add('date', TextType::class, [
                 'label' => ' ',
                 'data' => $date,
                 'required' => false,
             ])
-//            ->add('Dane_z_', ChoiceType::class, [
-//                'choices'  => [
-//                    'Wszystko' => null,
-//                    'NBP' => '1',
-//                    'FloatRates' => '2',
-//                ],
-//            ])
+            ->add('source', ChoiceType::class, [
+                'choices'  => [
+                    'Wszystko' => null,
+                    'Narodowy Bank Polski' => '1',
+                    'Float Rates' => '2',
+                ],
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Szukaj'
             ])
@@ -51,21 +51,28 @@ class ShowExchangeController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $date = $form->get('query')->getData();
+            $date = $form->get('date')->getData();
+            $sourceId = $form->get('source')->getData();
 //            $this->redirectToRoute('app_browse',[$date]);
         }
 
-        //pobieranie danych z wybraną datą
-        $exchange = $entityManager->getRepository(Exchange::class)->findByDate($date);
+        //pobieranie danych z wybraną datą i źródłem danych
+        if ($sourceId !== NULL) {
+            $exchange = $entityManager->getRepository(Exchange::class)->findByDateAndSourceId($date, $sourceId);
+        }
+        else{
+            $exchange = $entityManager->getRepository(Exchange::class)->findByDate($date);
+        }
 
         return $this->render('exchange/browse.html.twig', [
             'form' => $form->createView(),
             'exchange' => $exchange,
+            'divider'=>$divider
         ]);
     }
 
     #[Route('/show/{currencyId}', name: 'app_show')]
-    public function show($currencyId, ExchangeRepository $exchangeRepository): Response
+    public function show(int $currencyId, ExchangeRepository $exchangeRepository, int $divider = 100000000): Response
     {
         $exchange = $exchangeRepository->findBy(['currency' => $currencyId], ['importAt' => 'DESC']);
         if ($exchange == NULL) {
@@ -88,6 +95,7 @@ class ShowExchangeController extends AbstractController
             'exchange'=>$exchange,
             'sub'=>$sub,
             'sc'=>$sc,
+            'divider'=>$divider,
         ]);
     }
 

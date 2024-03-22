@@ -8,6 +8,7 @@ class FloatRates implements SourceInterface
 {
     public function getData(): array
 	{
+        $divider = 100000000;
         $jsonContent = file_get_contents("https://www.floatrates.com/daily/pln.json");
 
         if ($jsonContent != NULL) {
@@ -18,7 +19,7 @@ class FloatRates implements SourceInterface
             foreach ($data as $rate) {
                 $currency = $rate['name'];
                 $code = $rate['code'];
-                $mid = (int)round($rate['inverseRate']*100000000, 0);
+                $mid = (int)round($rate['inverseRate']*$divider, 0);
                 $rates[$i]['currency'] = $currency;
                 $rates[$i]['code'] = $code;
                 $rates[$i]['mid'] = $mid;

@@ -26,6 +26,19 @@ class ExchangeRepository extends ServiceEntityRepository
     /**
      * @return Currency[] Returns an array of Currency objects
      */
+    public function findByDateAndSourceId($date, $sourceId): array
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.importAt = :date')
+            ->andWhere('e.source = :sourceid')
+            ->setParameter('date', $date)
+            ->setParameter('sourceid', $sourceId)
+            ->orderBy('e.mid', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function findByDate($date): array
     {
         return $this->createQueryBuilder('e')
@@ -52,13 +65,6 @@ class ExchangeRepository extends ServiceEntityRepository
     {
         $conn = $this->getEntityManager()->getConnection();
 
-//        $select = "SELECT id FROM currency WHERE code=:code";
-//
-//        $r = $conn->executeQuery($select, ['code' => $code]);
-//        $id = $r->fetchAllAssociative();
-//        $currencyId = $id[0]['id'];
-
-
         $query = "INSERT INTO exchange (mid, import_at, source_id, currency_id)
                     VALUES(:mid, :import_at, :source_id, :currency_id)";
 
@@ -71,13 +77,4 @@ class ExchangeRepository extends ServiceEntityRepository
 
     }
 
-//    public function findOneBySomeField($value): ?Exchange
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
