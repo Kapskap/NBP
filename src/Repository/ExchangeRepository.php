@@ -51,11 +51,13 @@ class ExchangeRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findDate($importat): array
+    public function findDateAndSourceId($importat, $sourceId): array
     {
         return $this->createQueryBuilder('e')
             ->andWhere('e.importAt = :importat')
+            ->andWhere('e.source = :source')
             ->setParameter('importat', $importat)
+            ->setParameter('source', $sourceId)
             ->orderBy('e.importAt', 'DESC')
             ->getQuery()
             ->getResult()

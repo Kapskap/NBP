@@ -22,13 +22,13 @@ class ExchangeManager
 
     public function AddData(object $dto): Bool
     {
-        $effectiveDate = $this->exchangeDTO->geteffectiveDate();
-        $check = $this->exchangeRepository->findDate($effectiveDate); //Sprawdzenie czy dane z podaną datą są już w bazie
+        $effectiveDate = $dto->geteffectiveDate();
+        $sourceId = $dto->getSourceId();
+        //Sprawdzenie czy dane z podaną datą oraz źródłem danych są już w bazie
+        $check = $this->exchangeRepository->findDateAndSourceId($effectiveDate, $sourceId);
 
         if ($check == NULL) {
-            $sourceId = $this->exchangeDTO->getSourceId();
-
-            $rates = $this->exchangeDTO->getRates();
+            $rates = $dto->getRates();
             foreach ($rates as $rate) {
                 $code = $rate->getCode();
                 $mid = $rate->getMid()->getAmount();

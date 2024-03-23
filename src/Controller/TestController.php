@@ -34,17 +34,19 @@ class TestController extends AbstractController
     #[Route('/test', priority: 10, name: 'app_test')]
     public function show(): Response
     {
-        $result = $this->sourceFactory->createObject('Narodowy Bank Polski');
-//        $result = $this->sourceFactory->createObject('Float Rates');
+        $resultObject = $this->sourceFactory->createObject('Narodowy Bank Polski');
+//        $resultObject = $this->sourceFactory->createObject('Float Rates');
 
-        if ($result != NULL) {
-            $result = $result->getData();
+        if ($resultObject != NULL) {
+            $result = $resultObject->getData();
 //dd($result);
             $effectiveDate = $result['effectiveDate'];
-            $rates = $result['rates'];
             $sourceId = $result['sourceId'];
+            $rates = $result['rates'];
 
-            $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates);
+            $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates); //Zamiana tablicy na obiekt DTO
+
+            $check = $this->exchangeManager->AddData($this->exchangeDTO);
 
 dd($this->exchangeDTO->getRates()[2]->getMid()->getAmount());
 dd($this->exchangeDTO->getRates()[2]->getMid()->getCurrency()->getCode());
