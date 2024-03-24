@@ -3,19 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Exchange;
-use App\Entity\Currency;
 use App\Repository\ExchangeRepository;
-use App\Repository\CurrencyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use App\Form\DateAndSourceFormType;
 
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
 
 class ShowExchangeController extends AbstractController
 {
@@ -30,24 +25,7 @@ class ShowExchangeController extends AbstractController
         }
 
         //formularz do obsługi daty
-        $form = $this->createFormBuilder()
-            ->add('date', TextType::class, [
-                'label' => ' ',
-                'data' => $date,
-                'required' => false,
-            ])
-            ->add('source', ChoiceType::class, [
-                'choices'  => [
-                    'Wszystko' => null,
-                    'Narodowy Bank Polski' => '1',
-                    'Float Rates' => '2',
-                ],
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Szukaj'
-            ])
-            ->setMethod('GET')
-            ->getForm();
+        $form = $this->createForm(DateAndSourceFormType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
