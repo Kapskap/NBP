@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\DateAndSourceFormType;
+use App\Service\subtractService;
 
 
 class ShowExchangeController extends AbstractController
@@ -50,7 +51,12 @@ class ShowExchangeController extends AbstractController
     }
 
     #[Route('/show/{currencyId}', name: 'app_show')]
-    public function show(int $currencyId, ExchangeRepository $exchangeRepository, int $divider = 100000000): Response
+    public function show(
+        int $currencyId,
+        ExchangeRepository $exchangeRepository,
+        subtractService $subtractService,
+        int $divider = 100000000,
+    ): Response
     {
         $exchange = $exchangeRepository->findBy(['currency' => $currencyId], ['importAt' => 'DESC']);
         if ($exchange == NULL) {
@@ -62,17 +68,14 @@ class ShowExchangeController extends AbstractController
         }
 
         //Obliczanie różnic w walucie jako liczba ($sub) oraz jako % ($sc)
-        $sub[$key] = NULL;
-        $sc[$key] = NULL;
-        for($i = $key; $i>0; $i--){
-            $sub[$i-1] = $mid[$i-1] - $mid[$i];
-            $sc[$i-1] = 100*$sub[$i-1]/$mid[$i-1];
-        }
+        $sub = $subtractService->subtract($mid, $key);
+        $subtract = $sub[0];
+        $subtractInPercent = $sub[1];
 
         return $this->render('exchange/show.html.twig', [
             'exchange'=>$exchange,
-            'sub'=>$sub,
-            'sc'=>$sc,
+            'subtract'=>$subtract,
+            'subtractInPercent'=>$subtractInPercent,
             'divider'=>$divider,
         ]);
     }

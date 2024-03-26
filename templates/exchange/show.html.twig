@@ -33,12 +33,12 @@
                 {% endif %}
             </td>
             <td> {{ rate.mid/divider }} </td>
-            <td style="text-align: center;"> {{ sub[counter]|round(4, 'common')/divider }} </td>
-            <td style="text-align: center;"> {{ sc[counter]|round(3, 'common') }} % </td>
+            <td style="text-align: center;"> {{ subtract[counter]|round(4, 'common')/divider }} </td>
+            <td style="text-align: center;"> {{ subtractInPercent[counter]|round(3, 'common') }} % </td>
             <td>
-                {% if sub[counter] > 0 %}
+                {% if subtract[counter] > 0 %}
                     <img src="/images/up.png" alt="UP">
-                {% elseif sub[counter] < 0 %}
+                {% elseif subtract[counter] < 0 %}
                     <img src="/images/down.png" alt="DOWN">
                 {% endif %}
             </td>

@@ -45,7 +45,6 @@ class ExchangeRepository extends ServiceEntityRepository
             ->andWhere('e.importAt = :date')
             ->setParameter('date', $date)
             ->orderBy('e.mid', 'DESC')
-//            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
             ;

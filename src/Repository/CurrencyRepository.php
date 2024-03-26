@@ -56,8 +56,6 @@ class CurrencyRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->andWhere('c.code = :code')
             ->setParameter('code', $code)
-//            ->orderBy('e.mid', 'DESC')
-//            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
             ;
@@ -78,13 +76,4 @@ class CurrencyRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Language
-//    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
