@@ -62,15 +62,16 @@ class ExchangeRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
-    public function insertExchange(float $mid, string $effectiveDate, int $sourceId, int $currencyId)
+    public function insertExchange(float $mid, string $midCode, string $effectiveDate, int $sourceId, int $currencyId)
     {
         $conn = $this->getEntityManager()->getConnection();
 
-        $query = "INSERT INTO exchange (mid, import_at, source_id, currency_id)
-                    VALUES(:mid, :import_at, :source_id, :currency_id)";
+        $query = "INSERT INTO exchange (mid, mid_code, import_at, source_id, currency_id)
+                    VALUES(:mid, :mid_code, :import_at, :source_id, :currency_id)";
 
         $result = $conn->executeQuery($query, [
             'mid' => $mid,
+            'mid_code' => $midCode,
             'import_at' => $effectiveDate,
             'source_id' => $sourceId,
             'currency_id' => $currencyId,

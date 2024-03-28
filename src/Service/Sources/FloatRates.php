@@ -28,13 +28,13 @@ class FloatRates implements SourceInterface
 
             $effectiveDate = date("Y-m-d", strtotime($data['usd']['date']));
             $sourceId = 2;
-            $money = "PLN";
+            $midCode = "PLN";
 
             return [
                 'effectiveDate' => $effectiveDate,
                 'sourceId' => $sourceId,
                 'rates' => $rates,
-                'money' => $money,
+                'midCode' => $midCode,
             ];
         }
         else{

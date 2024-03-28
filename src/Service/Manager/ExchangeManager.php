@@ -32,11 +32,12 @@ class ExchangeManager
             foreach ($rates as $rate) {
                 $code = $rate->getCode();
                 $mid = $rate->getMid()->getAmount();
+                $midCode = $rate->getMid()->getCurrency()->getCode();
                 $name = $rate->getCurrency();
 
                 $currencyId = $this->currencyManager->CheckAndAddCurrency($code, $name, $sourceId);
 
-                $this->exchangeRepository->insertExchange($mid, $effectiveDate, $sourceId, $currencyId);
+                $this->exchangeRepository->insertExchange($mid, $midCode, $effectiveDate, $sourceId, $currencyId);
             }
             return true;
         }

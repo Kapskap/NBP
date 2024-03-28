@@ -29,13 +29,13 @@ class CoinCap implements SourceInterface
 
             $effectiveDate = date("Y-m-d H:i:s", substr($data['timestamp'],0,10));
             $sourceId = 3;
-            $money = "USD";
+            $midCode = "USD";
 
             return [
                 'effectiveDate' => $effectiveDate,
                 'sourceId' => $sourceId,
                 'rates' => $rates,
-                'money' => $money,
+                'midCode' => $midCode,
             ];
         }
         else{

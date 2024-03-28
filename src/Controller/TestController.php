@@ -43,15 +43,15 @@ class TestController extends AbstractController
             $effectiveDate = $result['effectiveDate'];
             $sourceId = $result['sourceId'];
             $rates = $result['rates'];
-            $money = $result['money'];
+            $midCode = $result['midCode'];
 
-            $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates, $money); //Zamiana tablicy na obiekt DTO
- dd($this->exchangeDTO->getRates()[0], $this->exchangeDTO->getRates()[0]->getMid()->getCurrency()->getCode()) ;
-//
-//            $check = $this->exchangeManager->AddData($this->exchangeDTO);
-//
+            $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates, $midCode); //Zamiana tablicy na obiekt DTO
+
+            $check = $this->exchangeManager->AddData($this->exchangeDTO);
+
 //dd($this->exchangeDTO->getRates()[2]->getMid()->getAmount());
 //dd($this->exchangeDTO->getRates()[2]->getMid()->getCurrency()->getCode());
+//dd($this->exchangeDTO->getRates()[0], $this->exchangeDTO->getRates()[0]->getMid()->getCurrency()->getCode()) ;
 
 //dd($this->exchangeDTO->getRates()[0]->getCurrency() );
 
