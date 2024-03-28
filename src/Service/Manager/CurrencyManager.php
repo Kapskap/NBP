@@ -26,6 +26,10 @@ class CurrencyManager
                 $namePl = '';
                 $nameEn = $name;
             }
+            elseif ($sourceId == 3){
+                $namePl = '';
+                $nameEn = $name;
+            }
             $this->currencyRepository->insertCurrency($code, $namePl, $nameEn);
             $currency = $this->currencyRepository->getIdByCode($code);
         }
@@ -37,6 +41,10 @@ class CurrencyManager
                 $this->currencyRepository->updateCurrency($code, $namePl, $nameEn);
             }
             if (($sourceId == 2) && ($nameEn != $name)){
+                $nameEn = $name;
+                $this->currencyRepository->updateCurrency($code, $namePl, $nameEn);
+            }
+            if (($sourceId == 3) && ($nameEn != $name)){
                 $nameEn = $name;
                 $this->currencyRepository->updateCurrency($code, $namePl, $nameEn);
             }

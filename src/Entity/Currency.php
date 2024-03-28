@@ -15,7 +15,7 @@ class Currency
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 5)]
+    #[ORM\Column(length: 10)]
     private ?string $code = null;
 
     #[ORM\Column(length: 50, nullable: true)]
