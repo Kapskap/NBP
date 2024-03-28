@@ -34,29 +34,32 @@ class TestController extends AbstractController
     #[Route('/test', priority: 10, name: 'app_test')]
     public function show(): Response
     {
-        $resultObject = $this->sourceFactory->createObject('Narodowy Bank Polski');
+        $resultObject = $this->sourceFactory->createObject('Coin Cap');
 //        $resultObject = $this->sourceFactory->createObject('Float Rates');
 
         if ($resultObject != NULL) {
             $result = $resultObject->getData();
-//dd($result);
+
             $effectiveDate = $result['effectiveDate'];
             $sourceId = $result['sourceId'];
             $rates = $result['rates'];
+            $money = $result['money'];
 
-            $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates); //Zamiana tablicy na obiekt DTO
+            $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates, $money); //Zamiana tablicy na obiekt DTO
+ dd($this->exchangeDTO->getRates()[0], $this->exchangeDTO->getRates()[0]->getMid()->getCurrency()->getCode()) ;
+//
+//            $check = $this->exchangeManager->AddData($this->exchangeDTO);
+//
+//dd($this->exchangeDTO->getRates()[2]->getMid()->getAmount());
+//dd($this->exchangeDTO->getRates()[2]->getMid()->getCurrency()->getCode());
 
-            $check = $this->exchangeManager->AddData($this->exchangeDTO);
-
-dd($this->exchangeDTO->getRates()[2]->getMid()->getAmount());
-dd($this->exchangeDTO->getRates()[2]->getMid()->getCurrency()->getCode());
-
-//dd($this->exchangeDTO->getRates()[2]->getCurrency() );
+//dd($this->exchangeDTO->getRates()[0]->getCurrency() );
 
 
             //money test
-            $fiver = Money::PLN(500);
-            $coupon = new Money(50, new currency('PLN'));
+            $money = "USD";
+            $fiver = Money::$money(500);
+            $coupon = new Money(50, new currency($money));
             $fiver  = $fiver->subtract($coupon);
  dd($fiver, $coupon);
 

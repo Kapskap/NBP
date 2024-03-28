@@ -20,6 +20,7 @@ class Nbp implements SourceInterface
             }
 
             $sourceId = 1;
+            $money = "PLN";
 
             $rates = [];
             $i = 0;
@@ -37,6 +38,7 @@ class Nbp implements SourceInterface
                 'effectiveDate' => $effectiveDate,
                 'sourceId' => $sourceId,
                 'rates' => $rates,
+                'money' => $money,
             ];
         }
         else{

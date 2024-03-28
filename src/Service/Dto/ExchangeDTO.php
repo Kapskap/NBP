@@ -17,7 +17,7 @@ class ExchangeDTO
        $this->rates = new ArrayCollection();
     }
 
-    public  function setDTO(string $effectiveDate, int $sourceId, array $rates)
+    public  function setDTO(string $effectiveDate, int $sourceId, array $rates,string $money = "PLN")
     {
         $this->setEffectiveDate($effectiveDate);
         $this->setSourceId($sourceId);
@@ -26,7 +26,7 @@ class ExchangeDTO
             $rateDTO = new RateDTO();
             $rateDTO->setCurrency($rate['currency']);
             $rateDTO->setCode($rate['code']);
-            $rateDTO->setMid(Money::PLN($rate['mid']));
+            $rateDTO->setMid(Money::$money($rate['mid']));
 //            $rateDTO->setMid($rate['mid']);
 
             $this->addRate($rateDTO);

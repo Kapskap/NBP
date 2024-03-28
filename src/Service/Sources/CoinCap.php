@@ -4,31 +4,32 @@ namespace App\Service\Sources;
 
 use App\Service\Interfaces\SourceInterface;
 
-class FloatRates implements SourceInterface
+class CoinCap implements SourceInterface
 {
     public function getData(): array
-	{
+    {
         $divider = 100000000;
-        $jsonContent = file_get_contents("https://www.floatrates.com/daily/pln.json");
+        $jsonContent = file_get_contents("https://api.coincap.io/v2/assets");
 
         if ($jsonContent != NULL) {
             $data = json_decode($jsonContent, true);
-
             $rates = [];
             $i = 0;
-            foreach ($data as $rate) {
+
+            foreach ($data['data'] as $rate) {
                 $currency = $rate['name'];
-                $code = $rate['code'];
-                $mid = (int)round($rate['inverseRate']*$divider, 0);
+                $code = $rate['symbol'];
+                $mid = (int)round($rate['priceUsd']*$divider, 0);
                 $rates[$i]['currency'] = $currency;
                 $rates[$i]['code'] = $code;
                 $rates[$i]['mid'] = $mid;
                 $i++;
+
             }
 
-            $effectiveDate = date("Y-m-d", strtotime($data['usd']['date']));
-            $sourceId = 2;
-            $money = "PLN";
+            $effectiveDate = date("Y-m-d H:i:s", substr($data['timestamp'],0,10));
+            $sourceId = 3;
+            $money = "USD";
 
             return [
                 'effectiveDate' => $effectiveDate,
@@ -40,5 +41,5 @@ class FloatRates implements SourceInterface
         else{
             return [];
         }
-	}
+    }
 }

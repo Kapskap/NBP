@@ -6,6 +6,7 @@ use App\Service\Interfaces\SourceFactoryInterface;
 use App\Service\Interfaces\SourceInterface;
 use App\Service\Sources\Nbp;
 use App\Service\Sources\FloatRates;
+use App\Service\Sources\CoinCap;
 
 
 class SourceFactory implements SourceFactoryInterface
@@ -18,6 +19,10 @@ class SourceFactory implements SourceFactoryInterface
 
         if ($source === 'Float Rates') {
             return new FloatRates();
+        }
+
+        if ($source === 'Coin Cap') {
+            return new CoinCap();
         }
 
         throw new \InvalidArgumentException("Unsupported Source");
