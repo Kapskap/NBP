@@ -17,8 +17,11 @@ class Exchange
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: "bigint")]
     private ?int $mid = null;
+
+    #[ORM\Column(length: 6)]
+    private ?string $midCode = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $importAt = null;
@@ -49,6 +52,18 @@ class Exchange
     public function setMid(float $mid): static
     {
         $this->mid = $mid;
+
+        return $this;
+    }
+
+    public function getMidCode(): ?string
+    {
+        return $this->midCode;
+    }
+
+    public function setMidCode(string $midCode): static
+    {
+        $this->midCode = $midCode;
 
         return $this;
     }
