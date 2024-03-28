@@ -20,7 +20,7 @@
         </div>
 
         <table>
-            <tr><td><b>Oznaczenie</b></td><td><b>Waluta</b></td><td><b>Kurs w PLN</b></td><td><b>Źródło danych</b></td></tr>
+            <tr><td><b>Oznaczenie</b></td><td><b>Waluta</b></td><td><b>Kurs</b></td><td><b>W przeliczeniu na</b></td><td><b>Źródło danych</b></td></tr>
 
             {% for rate in exchange %}
                     <tr>
@@ -33,6 +33,7 @@
                                 {% endif %}
                             </a></td>
                         <td> {{ rate.mid/divider}} </td>
+                        <td> {{ rate.midCode}} </td>
                         <td> {{ rate.source.name }} </td>
                     </tr>
             {% endfor %}

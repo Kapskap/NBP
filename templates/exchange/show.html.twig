@@ -14,7 +14,8 @@
     <table style="width: 800px;">
         <tr>
             <td><b>Waluta</b></td>
-            <td><b>Kurs w PLN</b></td>
+            <td><b>W przeliczeniu na</b></td>
+            <td><b>Kurs</b></td>
             <td style="text-align: center;"><b>Różnica</b></td>
             <td style="text-align: center;"><b>Zmiana w %</b></td>
             <td></td>
@@ -32,6 +33,7 @@
                     {{ rate.currency.namePL }}
                 {% endif %}
             </td>
+            <td> {{ rate.midCode }} </td>
             <td> {{ rate.mid/divider }} </td>
             <td style="text-align: center;"> {{ subtract[counter]|round(4, 'common')/divider }} </td>
             <td style="text-align: center;"> {{ subtractInPercent[counter]|round(3, 'common') }} % </td>

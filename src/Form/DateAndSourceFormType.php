@@ -38,6 +38,7 @@ class DateAndSourceFormType extends AbstractType
                     'Wszystko' => null,
                     'Narodowy Bank Polski' => '1',
                     'Float Rates' => '2',
+                    'Coin Cap' => '3',
                 ],
             ])
             ->add('submit', SubmitType::class, [

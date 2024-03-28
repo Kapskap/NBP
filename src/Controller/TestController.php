@@ -46,7 +46,7 @@ class TestController extends AbstractController
             $midCode = $result['midCode'];
 
             $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates, $midCode); //Zamiana tablicy na obiekt DTO
-
+dd($result);
             $check = $this->exchangeManager->AddData($this->exchangeDTO);
 
 //dd($this->exchangeDTO->getRates()[2]->getMid()->getAmount());
