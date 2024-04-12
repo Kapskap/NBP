@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\DateAndSourceFormType;
-use App\Service\subtractService;
+use App\Service\SubtractService;
 
 
 class ShowExchangeController extends AbstractController
@@ -54,7 +54,7 @@ class ShowExchangeController extends AbstractController
     public function show(
         int $currencyId,
         ExchangeRepository $exchangeRepository,
-        subtractService $subtractService,
+        SubtractService $subtractService,
         int $divider = 100000000,
     ): Response
     {
@@ -63,12 +63,11 @@ class ShowExchangeController extends AbstractController
             throw $this->createNotFoundException('Nie znaleziono waluty o identyfikatorze '.$currencyId);
         }
 
-        foreach ($exchange as $key => $value) {
+        foreach ($exchange as $value) {
             $mid[] = $value->getMid();
         }
 
-        //Obliczanie różnic w walucie jako liczba ($sub) oraz jako % ($sc)
-        $sub = $subtractService->subtract($mid, $key);
+        $sub = $subtractService->subtract($mid);
         $subtract = $sub[0];
         $subtractInPercent = $sub[1];
 
