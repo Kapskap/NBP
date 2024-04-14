@@ -34,7 +34,7 @@ class TestController extends AbstractController
     #[Route('/test', priority: 10, name: 'app_test')]
     public function show(): Response
     {
-        $resultObject = $this->sourceFactory->createObject('Coin Cap');
+        $resultObject = $this->sourceFactory->createObject('Narodowy Bank Polski');
 //        $resultObject = $this->sourceFactory->createObject('Float Rates');
 
         if ($resultObject != NULL) {
@@ -46,7 +46,7 @@ class TestController extends AbstractController
             $midCode = $result['midCode'];
 
             $this->exchangeDTO->setDTO($effectiveDate, $sourceId, $rates, $midCode); //Zamiana tablicy na obiekt DTO
-dd($result);
+//dd($result);
             $check = $this->exchangeManager->AddData($this->exchangeDTO);
 
 //dd($this->exchangeDTO->getRates()[2]->getMid()->getAmount());

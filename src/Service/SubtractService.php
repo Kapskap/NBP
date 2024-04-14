@@ -15,7 +15,7 @@ class SubtractService
             $subtract[$i] = $mid[$i] - $mid[$i+1];
             $subtractInPercent[$i] = 100 * $subtract[$i] / $mid[$i];
         }
-        
+
         return array($subtract, $subtractInPercent);
     }
 }

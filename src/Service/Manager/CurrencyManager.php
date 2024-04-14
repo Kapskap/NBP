@@ -30,12 +30,13 @@ class CurrencyManager
                 $namePl = '';
                 $nameEn = $name;
             }
-            $this->currencyRepository->insertCurrency($code, $namePl, $nameEn);
-            $currency = $this->currencyRepository->getIdByCode($code);
+            $currencyId = $this->currencyRepository->insertCurrency($code, $namePl, $nameEn);
         }
         else { //sprawdzenie i ewntualne dodanie nazwy waluty do tabeli currency
+            $currencyId = $currency[0]->getId();
             $namePl = $currency[0]->getNamePL();
             $nameEn = $currency[0]->getNameEN();
+
             if (($sourceId == 1) && ($namePl != $name)){
                 $namePl = $name;
                 $this->currencyRepository->updateCurrency($code, $namePl, $nameEn);
@@ -50,7 +51,6 @@ class CurrencyManager
             }
         }
 
-        $currencyId = $currency[0]->getId();
         return $currencyId;
     }
 

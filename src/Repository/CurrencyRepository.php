@@ -21,7 +21,7 @@ class CurrencyRepository extends ServiceEntityRepository
         parent::__construct($registry, Currency::class);
     }
 
-    public function insertCurrency(string $code, string $namePL, string $nameEN)
+    public function insertCurrency(string $code, string $namePL, string $nameEN): int
     {
         $conn = $this->getEntityManager()->getConnection();
 
@@ -33,7 +33,8 @@ class CurrencyRepository extends ServiceEntityRepository
             'name_pl' => $namePL,
             'name_en' => $nameEN,
         ]);
-
+        $currencyid = $conn->lastInsertId();
+        return $currencyid;
     }
 
     public function updateCurrency(string $code, string $namePL, string $nameEN)
