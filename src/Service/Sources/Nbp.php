@@ -19,7 +19,6 @@ class Nbp implements SourceInterface
                 $data = $array['rates'];
             }
 
-            $sourceId = 1;
             $midCode = "PLN";
 
             $rates = [];
@@ -36,7 +35,6 @@ class Nbp implements SourceInterface
 
             return [
                 'effectiveDate' => $effectiveDate,
-                'sourceId' => $sourceId,
                 'rates' => $rates,
                 'midCode' => $midCode,
             ];

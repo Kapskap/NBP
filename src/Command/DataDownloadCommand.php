@@ -11,6 +11,7 @@ use App\Service\SourceFactory;
 use App\Service\Manager\ExchangeManager;
 use App\Service\Dto\ExchangeDTO;
 use App\Service\Dto\RateDTO;
+use App\Service\SourceService;
 
 #[AsCommand(
     name: 'app:data-download',
@@ -22,11 +23,11 @@ class DataDownloadCommand extends Command
         private SourceFactory $sourceFactory,
         private ExchangeManager $exchangeManager,
         private ExchangeDTO $exchangeDTO,
-        private RateDTO $rateDTO
+        private RateDTO $rateDTO,
+        private SourceService $sourceService
     )
     {
         $this->exchangeManager = $exchangeManager;
-        $this->exchangeDTO = $exchangeDTO;
         parent::__construct();
     }
 
@@ -35,17 +36,17 @@ class DataDownloadCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $io->text('Witaj w serwisie pobierającym dane dotyczące kursu wymiany walut.');
         $sources = $this->getSource();
-        $sourceChoice = $io->choice('Wybierz źródło danych', $sources);
+        $sourceName = $io->choice('Wybierz źródło danych', $sources);
 
         $output->writeln('Pobieranie danych ze strony serwera:');
-        $output->writeln([$sourceChoice,'']);
+        $output->writeln([$sourceName,'']);
 
-        $resultObject = $this->sourceFactory->createObject($sourceChoice);
+        $sourceId = $this->sourceService->getSourceId($sourceName);
+        $resultObject = $this->sourceFactory->createObject($sourceName);
 
         $result = $resultObject->getData(); //Pobieranie danych
 
         $effectiveDate = $result['effectiveDate'];
-        $sourceId = $result['sourceId'];
         $rates = $result['rates'];
         $midCode = $result['midCode'];
 
@@ -67,7 +68,7 @@ class DataDownloadCommand extends Command
         return [
             'Narodowy Bank Polski',
             'Float Rates',
-            'Coin Cap'
+            'Coin Cap',
         ];
     }
 }

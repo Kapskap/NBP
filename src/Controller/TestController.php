@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\SourceService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,25 +24,26 @@ class TestController extends AbstractController
         private SourceFactory $sourceFactory,
         private ExchangeManager $exchangeManager,
         private ExchangeDTO $exchangeDTO,
-        private RateDTO $rateDTO
+        private RateDTO $rateDTO,
+        private SourceService $sourceService
     )
     {
-        $this->sourceFactory = $sourceFactory;
-        $this->exchangeManager = $exchangeManager;
-        $this->exchangeDTO = $exchangeDTO;
+
     }
 
     #[Route('/test', priority: 10, name: 'app_test')]
     public function show(): Response
     {
-        $resultObject = $this->sourceFactory->createObject('Narodowy Bank Polski');
-//        $resultObject = $this->sourceFactory->createObject('Float Rates');
+        $sourceName = 'Narodowy Bank Polski';
+        $sourceId = $this->sourceService->getSourceId($sourceName);
+
+        $resultObject = $this->sourceFactory->createObject($sourceName);
 
         if ($resultObject != NULL) {
             $result = $resultObject->getData();
 
             $effectiveDate = $result['effectiveDate'];
-            $sourceId = $result['sourceId'];
+
             $rates = $result['rates'];
             $midCode = $result['midCode'];
 
@@ -49,6 +51,11 @@ class TestController extends AbstractController
 //dd($result);
             $check = $this->exchangeManager->AddData($this->exchangeDTO);
 
+            if ($check == true) {
+                dd('Dane zostały pobrane poprawnie');
+            } else {
+                dd('Dane z podaną datą już istnieją');
+            }
 //dd($this->exchangeDTO->getRates()[2]->getMid()->getAmount());
 //dd($this->exchangeDTO->getRates()[2]->getMid()->getCurrency()->getCode());
 //dd($this->exchangeDTO->getRates()[0], $this->exchangeDTO->getRates()[0]->getMid()->getCurrency()->getCode()) ;
