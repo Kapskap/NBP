@@ -35,7 +35,7 @@ class DataDownloadCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $io->text('Witaj w serwisie pobierającym dane dotyczące kursu wymiany walut.');
-        $sources = $this->getSource();
+        $sources = $this->sourceService->getSource();
         $sourceName = $io->choice('Wybierz źródło danych', $sources);
 
         $output->writeln('Pobieranie danych ze strony serwera:');
@@ -63,12 +63,4 @@ class DataDownloadCommand extends Command
         return Command::SUCCESS;
     }
 
-    protected function getSource(): array
-    {
-        return [
-            'Narodowy Bank Polski',
-            'Float Rates',
-            'Coin Cap',
-        ];
-    }
 }

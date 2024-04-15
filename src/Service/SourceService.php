@@ -22,4 +22,12 @@ Class SourceService
         return $sourceID;
     }
 
+    public function getSource(): array
+    {
+        return [
+            'Narodowy Bank Polski',
+            'Float Rates',
+            'Coin Cap',
+        ];
+    }
 }

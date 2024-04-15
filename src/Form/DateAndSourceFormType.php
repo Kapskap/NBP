@@ -8,12 +8,14 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use App\Repository\ExchangeRepository;
+use App\Service\SourceService;
 
 
 class DateAndSourceFormType extends AbstractType
 {
     public function __construct(
         private ExchangeRepository $exchangeRepository,
+        private SourceService $sourceService
     )
     {
         $this->ExchangeRepository = $exchangeRepository;
@@ -21,6 +23,12 @@ class DateAndSourceFormType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $sourcesName = $this->sourceService->getSource();
+        $sources['Wszystko'] = null;
+        foreach ($sourcesName as $sourceName) {
+            $sources[$sourceName] = $this->sourceService->getSourceId($sourceName);
+        }
+
         //pobieranie najnowszej daty
         if (!isset($date)) {
             $date = $this->exchangeRepository->findOneBy([], ['importAt' => 'DESC']);
@@ -34,12 +42,7 @@ class DateAndSourceFormType extends AbstractType
                 'required' => false,
             ])
             ->add('source', ChoiceType::class, [
-                'choices'  => [
-                    'Wszystko' => null,
-                    'Narodowy Bank Polski' => '1',
-                    'Float Rates' => '2',
-                    'Coin Cap' => '3',
-                ],
+                'choices'  => [$sources],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Szukaj'
