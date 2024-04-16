@@ -9,25 +9,37 @@ Class SourceService
 {
     public function __construct(private SourceRepository $sourceRepository)
     {
-        $this->SourceRepository = $this->sourceRepository;
+        $this->SourceRepository = $sourceRepository;
     }
 
-    public function getSourceId(string $sourceName): int
+    public function getSourceIdByName(string $sourceName): int
     {
-        $source = $this->sourceRepository->getIdByName($sourceName);
+        $source = $this->sourceRepository->findOneBy(['name' => $sourceName]);
         if ($source == NULL) {
            throw new \InvalidArgumentException("Nieprawidłowe źródło danych");
         }
-        $sourceID = $source[0]->getId();
+        $sourceID = $source->getId();
         return $sourceID;
     }
 
-    public function getSource(): array
+    public function getSourceName(): array
     {
-        return [
-            'Narodowy Bank Polski',
-            'Float Rates',
-            'Coin Cap',
-        ];
+        $sourcesAll = $this->sourceRepository->findAll();
+        foreach ($sourcesAll as $source)
+        {
+            $sourceName[] = $source->getName();
+        }
+        return $sourceName;
+    }
+
+    public function getSourceNameAndId(): array
+    {
+        $sourcesAll = $this->sourceRepository->findAll();
+        foreach ($sourcesAll as $source)
+        {
+            $sourceName = $source->getName();
+            $sources[$sourceName] = $source->getId();
+        }
+        return $sources;
     }
 }

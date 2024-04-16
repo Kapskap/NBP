@@ -35,13 +35,13 @@ class DataDownloadCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $io->text('Witaj w serwisie pobierającym dane dotyczące kursu wymiany walut.');
-        $sources = $this->sourceService->getSource();
-        $sourceName = $io->choice('Wybierz źródło danych', $sources);
+        $sourcesName = $this->sourceService->getSourceName();
+        $sourceName = $io->choice('Wybierz źródło danych', $sourcesName);
 
         $output->writeln('Pobieranie danych ze strony serwera:');
         $output->writeln([$sourceName,'']);
 
-        $sourceId = $this->sourceService->getSourceId($sourceName);
+        $sourceId = $this->sourceService->getSourceIdByName($sourceName);
         $resultObject = $this->sourceFactory->createObject($sourceName);
 
         $result = $resultObject->getData(); //Pobieranie danych

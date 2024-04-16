@@ -23,11 +23,8 @@ class DateAndSourceFormType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $sourcesName = $this->sourceService->getSource();
-        $sources['Wszystko'] = null;
-        foreach ($sourcesName as $sourceName) {
-            $sources[$sourceName] = $this->sourceService->getSourceId($sourceName);
-        }
+        //Pobieranie informacji o źródłach danych z tabeli source
+        $sources = array('Wszystko' => null) + $this->sourceService->getSourceNameAndId();
 
         //pobieranie najnowszej daty
         if (!isset($date)) {

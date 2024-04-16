@@ -21,16 +21,6 @@ class SourceRepository extends ServiceEntityRepository
         parent::__construct($registry, Source::class);
     }
 
-    public  function getIdByName(string $name)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.name = :name')
-            ->setParameter('name', $name)
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
 //    /**
 //     * @return Source[] Returns an array of Source objects
 //     */
